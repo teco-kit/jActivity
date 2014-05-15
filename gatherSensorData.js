@@ -1,3 +1,4 @@
+<script type="text/javascript">
 /* Copyright (c) 2014 Michael Hauber, TECO (Karlsruhe Institute of Technology, KIT)
  * Use of this source code is governed by a BSD-style license that can be
  * found in the LICENSE file.
@@ -95,3 +96,4 @@ function trackOrientationEvent(event) {
 }
 	
 window.addEventListener("deviceorientation", trackOrientationEvent, true);
+</script>
