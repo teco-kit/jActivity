@@ -1,25 +1,25 @@
 jActivity
 =========
-A Javascript and HTML5-based system to acquire sensor data out of a smartphones browser, use this data to train a classifier and provide the classifier as a JavaScript so that it can be embedded into a website.
+A Javascript and HTML5-based system to acquire sensor data out of a smartphones browser, to use this data to train a classifier and to provide the classifier as a JavaScript so that it can be embedded into a website.
 
 
 HTML5 Events
 -------
-jActivity uses the two HTML5 events DeviceMotion and DeviceOrientation.
-Specification can be found here: [DeviceOrientation Event Specification](http://www.w3.org/TR/orientation-event/).
+jActivity uses the two HTML5 events `DeviceMotion` and `DeviceOrientation`.
+The corresponding specifications can be found here: [DeviceOrientation Event Specification](http://www.w3.org/TR/orientation-event/).
 
 DeviceOrientation
 -------
-DeviceOrientation offers the attributes: `alpha`, `beta` and `gamma`.
+The `DeviceOrientation` event provides the attributes: `alpha`, `beta` and `gamma`.
 In the specification it is stated, that: 
 
 > The event should fire whenever a significant change in orientation occurs. The definition of a significant change in this context is left to the implementation. In addition, when a new listener registers for the event, implementations should fire the event as soon as sufficiently fresh data is available.
 
-This means, you cannot set a specific sample rate. You have to rely on your device to deliver fast enough sample rates.
+This means that you cannot set a specific sample rate. You have to rely on your device to deliver fast enough sample rates.
 
 > The alpha, beta and gamma properties of the event must specify the orientation of the device in terms of the transformation from a coordinate frame fixed on the Earth to a coordinate frame fixed in the device.
 
-It is important to notice, that the compass is used to define the three attributes.
+It is important to notice that the compass is used to define the three attributes.
 
 > The Earth coordinate frame is a 'East, North, Up' frame at the user's location. It has the following 3 axes, where the ground plane is tangent to the spheriod of the World Geodetic System 1984 [[WGS84]](http://w3c.github.io/deviceorientation/spec-source-orientation.html#ref-wgs84), at the user's location.
 
@@ -28,7 +28,7 @@ A more detailed feasibility study can be found in: [jActivity: Supporting Mobile
 
 DeviceMotion
 -------
-DeviceMotion is able to give you `acceleration` with or without gravity in three axes (`x`, `y` and `z`) and a `rotation rate` in three axes (`x`, `y` and `z`).
+The `DeviceMotion` event provides values for `acceleration` with or without gravity in three axes (`x`, `y` and `z`) and a `rotation rate` in three axes (`x`, `y` and `z`).
 
 > The acceleration attribute must be initialized with the acceleration of the hosting device relative to the Earth frame, expressed in the body frame, as defined in section 4.1. The acceleration must be expressed in meters per second squared (m/s2).
 
@@ -37,8 +37,8 @@ DeviceMotion is able to give you `acceleration` with or without gravity in three
 
 Usage
 -------
-First you have to setup your data gathering module. An easy example is given in `gatherMotionData.js`.
-Here is an example how the data is gathered and uploaded to a php script on a server (example code can be found in `saveDeviceMotionData.php` and `saveDeviceOrientationData.php`)
+First, you have to setup your data gathering module. An easy example is given in `gatherSensorData.js`.
+Here is an example on how the data is gathered and uploaded to a php script on a server (example code can be found in `saveDeviceMotionData.php` and `saveDeviceOrientationData.php`)
 
 ```javascript
 	$.ajax({
@@ -53,7 +53,7 @@ Here is an example how the data is gathered and uploaded to a php script on a se
 	});
 ```
 
-Second step is then to build a classifier using a Decision Tree in [WEKA](http://www.cs.waikato.ac.nz/~ml/weka/)
+Second step is then to build a classifier using a Decision Tree in [WEKA](http://www.cs.waikato.ac.nz/~ml/weka/).
 This looks like:
 
 ```
@@ -68,8 +68,8 @@ devMoZWithoutGrav_avg <= -0.583389
             [...]
 ```
 
-There you can export the decision tree from the text field and use `buildJavaScriptClassifier.php` to create your personal classifier in JavaScript.
-The script transforms your WEKA decision tree to something like this:
+You can export the decision tree from the text field and use `buildJavaScriptClassifier.php` to create your personal classifier in JavaScript.
+The script transforms your WEKA decision tree into an if-else-construct:
 
 ```
 if (devMoZWithoutGrav_avg <= -0.583389) {
@@ -83,7 +83,7 @@ if (devMoZWithoutGrav_avg <= -0.583389) {
 			[...]
 ```
 
-Finally you have to include the generated JavaScript code in your mobile website or webapplication.
+Finally, you have to include the generated JavaScript code in your mobile website or webapplication.
 You can use the function `getDecisionOfDT([...])` to access your classifier.
 A very minimalistic, simple classification would be:
 
