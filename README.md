@@ -88,11 +88,11 @@ You can use the function `getDecisionOfDT([...])` to access your classifier.
 A very minimalistic, simple classification would be:
 
 ```javascript
-    if (devMoX_var > 0.5 || devMoXWithoutGrav_var > 0.5 || devMoYWithoutGrav_var > 0.5 || devMoZWithoutGrav_var > 0.5 || devMoAlphaRot_var > 0.1 || devMoBetaRot_var > 0.1 || devMoGammaRot_var > 0.1) {
-        return "Movement detected.";
-    } else {
-     	return "No Movement detected.";   
-    }
+if getDecisionOfDT([... insert calculated features here ...]) == “Gehen”) {
+   makeFontSizeBigger();
+} else {
+   makeFontSizeSmaller();
+}
 ```
 
 
