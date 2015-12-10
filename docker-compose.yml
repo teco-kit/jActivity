@@ -1,0 +1,10 @@
+nginx:
+    build: ./nginx
+    links:
+        - node
+    ports:
+        - "80:80"
+node:
+    build: ./node
+    volumes:
+        - ./data:/data

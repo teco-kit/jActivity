@@ -1,0 +1,12 @@
+[
+	{
+		"label": "walking",
+		"name": "Walking",
+		"description": "The movement of going places"
+	},
+	{
+		"label": "standing",
+		"name": "Standing",
+		"description": "Resting"
+	}
+]

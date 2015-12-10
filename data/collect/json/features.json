@@ -1,0 +1,24 @@
+[
+	{
+		"feature": "devicemotion",
+		"name": "Device Motion",
+		"icon": "accessibility",
+		"value": true,
+		"script": "devicemotion.js"
+	},
+	{
+		"feature": "deviceorientation",
+		"name": "Device Orientation",
+		"icon": "accessibility",
+		"value": false,
+		"script": "deviceorientation.js"
+	},
+	{
+		"feature": "touchevents",
+		"name": "Touch Events",
+		"icon": "accessibility",
+		"value": false,
+		"script": "touchevents.js",
+		"html": "touchevents.html"
+	}
+]

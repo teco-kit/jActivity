@@ -1,0 +1,21 @@
+{
+	"name": "jactivity",
+	"version": "2.0.0",
+	"description": "",
+	"repository": {
+		"type": "git",
+		"url": "https://projects.teco.edu/jactivity.git"
+	},
+	"dependencies": {
+		"body-parser": "^1.8.1",
+		"express": "^4.9.0",
+		"mysql": "^2.5.4",
+		"express-session": "~1.7.6",
+		"path-exists" : "2.1.0",
+		"body-parser": "^1.8.1"
+    },
+	"scripts": {
+		"start": "node server.js"
+	}
+
+}
