@@ -19,10 +19,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `playground`
 --
+
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
+
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' IDENTIFIED BY 'admin' WITH GRANT OPTION;
+
 CREATE DATABASE IF NOT EXISTS `jactivity2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `jactivity2`;
 
 -- --------------------------------------------------------
+
+CREATE TABLE `deviceorientation` (
+  `id` varchar(200) NOT NULL,
+  `timestamp` varchar(200) NOT NULL,
+  `useragent` varchar(200) NOT NULL,
+  `label` varchar(200) NOT NULL,
+  `beta` varchar(200) NOT NULL,
+  `gamma` varchar(200) NOT NULL,
+  `alpha` varchar(200) NOT NULL,
+  `absolute` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `features`

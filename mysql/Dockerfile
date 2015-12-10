@@ -1,10 +1,12 @@
-FROM mysql
+FROM mysql/mysql-server
 MAINTAINER  David Greiner <david@ultitech.de>
 
-ADD run_db init_db mowat.sql /tmp/
+ADD jactivity2.sql /docker-entrypoint-initdb.d/jactivity2.sql
 
-RUN /tmp/init_db
+#ADD run_db init_db jactivity2.sql /tmp/
 
-ENTRYPOINT "/tmp/run_db"
+#RUN /tmp/init_db
 
-EXPOSE 3306	
+#ENTRYPOINT "/tmp/run_db"
+
+EXPOSE 3306

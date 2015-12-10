@@ -1,10 +1,25 @@
+node:
+    build: ./node
+    links:
+        - mysql
+    volumes:
+        - "./data:/data"
+    ports:
+        - "8888:8888"
+        - "3000:3000"
 nginx:
     build: ./nginx
     links:
         - node
+mysql:
+    build: ./mysql
+    environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        MYSQL_DATABASE: jactivity2
     ports:
+        - "3307:3306"
+opencpu:
+    build: ./opencpu
+    ports:
+        - "8004:8004"
         - "80:80"
-node:
-    build: ./node
-    volumes:
-        - ./data:/data

@@ -3,7 +3,7 @@
 set -e
 set -x
 
-mysql_install_db
+mysqld --initialize-insecure
 
 # Start the MySQL daemon in the background.
 /usr/sbin/mysqld &
@@ -13,11 +13,16 @@ until mysqladmin ping &>/dev/null; do
   echo -n "."; sleep 0.2
 done
 
+mysql -e "FLUSH PRIVILEGES;"
+
 # Permit root login without password from outside container.
-mysql -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '' WITH GRANT OPTION"
+mysql -e "GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION"
 
 # create the default database from the ADDed file.
 mysql < /tmp/jactivity2.sql
+
+
+#mysql -e "update mysql.user set host='%' where host='localhost'"
 
 # Tell the MySQL daemon to shutdown.
 mysqladmin shutdown
