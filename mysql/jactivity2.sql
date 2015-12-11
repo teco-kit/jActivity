@@ -41,6 +41,23 @@ CREATE TABLE `deviceorientation` (
   `absolute` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `devicemotion` (
+  `id` varchar(200) NOT NULL,
+  `timestamp` varchar(200) NOT NULL,
+  `useragent` varchar(200) NOT NULL,
+  `label` varchar(200) NOT NULL,
+  `accelerationX` varchar(200) NOT NULL,
+  `accelerationY` varchar(200) NOT NULL,
+  `accelerationZ` varchar(200) NOT NULL,
+  `accelerationIncludingGravityX` varchar(200) NOT NULL,
+  `accelerationIncludingGravityY` varchar(200) NOT NULL,
+  `accelerationIncludingGravityZ` varchar(200) NOT NULL,
+  `rotationRateBeta` varchar(200) NOT NULL,
+  `rotationRateGamma` varchar(200) NOT NULL,
+  `rotationRateAlpha` varchar(200) NOT NULL,
+  `interval` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Table structure for table `features`
 --
