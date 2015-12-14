@@ -5,7 +5,7 @@ node:
     volumes:
         - "./data:/data"
     ports:
-        - "8888:8888"
+        - "8889:8888"
         - "3000:3000"
 nginx:
     build: ./nginx
@@ -24,4 +24,4 @@ opencpu:
     build: ./opencpu
     ports:
         - "8004:8004"
-        - "80:80"
+        - "81:80"
