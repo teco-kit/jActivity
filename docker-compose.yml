@@ -18,6 +18,8 @@ mysql:
         MYSQL_DATABASE: jactivity2
     ports:
         - "3307:3306"
+    volumes:
+        - "./data/mysql:/var/lib/mysql"
 opencpu:
     build: ./opencpu
     ports:
