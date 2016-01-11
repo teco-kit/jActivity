@@ -1,6 +1,0 @@
-[submodule "jActivity2PMML"]
-	path = jActivity2PMML
-	url = https://github.com/teco-kit/jActivity2PMML
-[submodule "pmml2js"]
-	path = pmml2js
-	url = https://github.com/frostyandy2k/pmml2js
