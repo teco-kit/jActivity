@@ -1,3 +1,6 @@
+gulp:
+	build: ./gulp
+	volumes: "./data:/data"
 node:
     build: ./node
     links:

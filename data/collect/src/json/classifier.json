@@ -1,0 +1,14 @@
+[
+	{
+		name: "Activity",
+		icon: "accessibility",
+		value: false,
+		labels: {"walking", "running", "sitting", "jumping"}
+	},
+	{
+		name: "Handedness",
+		icon: "point-up",
+		value: false,
+		dependencies: {"activity"}
+	}
+]

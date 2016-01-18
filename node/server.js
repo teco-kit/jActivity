@@ -11,7 +11,7 @@ port = process.argv[2] || 8888;
 http.createServer(function(request, response) {
 
     var uri = url.parse(request.url).pathname,
-    filename = path.join("/data/collect/", uri);
+    filename = path.join("/data/collect/build", uri);
 
     pathExists(filename).then(function(exists) {
         if(!exists) {
@@ -131,6 +131,36 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
+
+
+router.route('/labels')
+
+// create a bear (accessed at POST http://localhost:8080/bears)
+.post(function(req, res) {
+
+    var bear = new Bear();		// create a new instance of the Bear model
+    bear.name = req.body.name;  // set the bears name (comes from the request)
+
+    bear.save(function(err) {
+        if (err)
+        res.send(err);
+
+        res.json({ message: 'Bear created!' });
+    });
+
+
+})
+
+// get all the bears (accessed at GET http://localhost:8080/api/bears)
+.get(function(req, res) {
+    Bear.find(function(err, bears) {
+        if (err)
+        res.send(err);
+
+        res.json(bears);
+    });
+});
+
 
 router.route('/features')
 
