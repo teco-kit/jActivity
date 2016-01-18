@@ -10,10 +10,6 @@ node:
     ports:
         - "8889:8888"
         - "3000:3000"
-nginx:
-    build: ./nginx
-    links:
-        - node
 mysql:
     build: ./mysql
     environment:
