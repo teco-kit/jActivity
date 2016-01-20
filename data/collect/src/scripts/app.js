@@ -1,6 +1,7 @@
 /*
   Import all Angular components via ES6 imports and register them
   at your module via their corresponding functions (controller, service, etc.).
+  Copyright 2016 KIT Institute for Telematics TecO - David Greiner
 */
 
 import ButtonsCtrl from './controllers/ButtonsCtrl';

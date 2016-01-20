@@ -29,7 +29,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
 			var json = JSON.stringify(data);
 			if(json !== '{}') {
 				var req = new XMLHttpRequest();
-				req.open('POST', "http://192.168.99.100:3000");
+				req.open('POST', "http://docker.teco.edu:3000/api");
 				req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 				req.send(json);
 			}

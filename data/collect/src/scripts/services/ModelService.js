@@ -8,7 +8,7 @@ export default class ModelService {
         
     getFeatures() {
     	var deferred = this.$q.defer();
-	    this.$http.get('json/features.json').then(function(data)
+	    this.$http.get('http://docker.teco.edu:3000/api/features').then(function(data)
 	    {
 		    deferred.resolve(data);
 		});
@@ -17,7 +17,7 @@ export default class ModelService {
     }
     getLabels() {
 	    var deferred = this.$q.defer();
-	    this.$http.get('json/labels.json').then(function(data)
+	    this.$http.get('http://docker.teco.edu:3000/api/labels').then(function(data)
 	    {
 		    deferred.resolve(data);
 		});

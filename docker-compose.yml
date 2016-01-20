@@ -1,6 +1,7 @@
 gulp:
-	build: ./gulp
-	volumes: "./data:/data"
+    build: ./gulp
+    volumes:
+        - "./data:/data"
 node:
     build: ./node
     links:
@@ -8,13 +9,12 @@ node:
     volumes:
         - "./data:/data"
     ports:
-        - "8889:8888"
         - "3000:3000"
 mysql:
     build: ./mysql
     environment:
-        MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        MYSQL_DATABASE: jactivity2
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        MYSQL_DATABASE: "jactivity2"
     ports:
         - "3307:3306"
     volumes:
@@ -24,3 +24,9 @@ opencpu:
     ports:
         - "8004:8004"
         - "81:80"
+apache:
+    build: ./apache
+    volumes:
+        - "./data:/data"
+    ports:
+        - "82:80"

@@ -1,12 +1,8 @@
+# Image created by Oracle
 FROM mysql/mysql-server
-MAINTAINER  David Greiner <david@ultitech.de>
 
+# File Author / Maintainer
+MAINTAINER  David Greiner <greiner@teco.edu>
+
+# Execute jacitivity2.sql on build
 ADD jactivity2.sql /docker-entrypoint-initdb.d/jactivity2.sql
-
-#ADD run_db init_db jactivity2.sql /tmp/
-
-#RUN /tmp/init_db
-
-#ENTRYPOINT "/tmp/run_db"
-
-EXPOSE 3306

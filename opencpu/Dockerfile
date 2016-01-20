@@ -1,3 +1,5 @@
+# Image with opencpu and rstudio-server
 FROM opencpu/rstudio
 
-MAINTAINER  David Greiner <david@ultitech.de>
+# File Author / Maintainer
+MAINTAINER  David Greiner <greiner@teco.edu>

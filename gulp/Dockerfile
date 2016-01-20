@@ -1,9 +1,14 @@
-FROM node:0.12.7
+# Set nodejs base image
+FROM node:latest
 
-WORKDIR /data
+# File Author / Maintainer
+MAINTAINER  David Greiner <greiner@teco.edu>
 
-RUN npm install -g bower gulp
+# Change working directory to collect website on volume
+WORKDIR /data/collect
 
-RUN bower install --allow-root
+# Install gulp build system
+RUN npm install -g gulp
 
+# Watch files for changes and build in real-time
 CMD ["gulp", "watch"]
