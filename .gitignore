@@ -1,0 +1,7 @@
+data/collect/node_modules
+data/collect/build
+
+data/mysql
+
+
+.DS_Store
