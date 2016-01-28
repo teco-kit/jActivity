@@ -101,8 +101,7 @@ var treeTransformation = function(data){
 	
 	$.ajax({
 		type: "GET",
-		url: ("http://localhost:3000/pmml2js_decision_tree.xsl"),
-//		url: ("http://" + host + ":3000/pmml2js_decision_tree.xsl"),
+		url: ("http://" + host + ":82/transformationstyles/pmml2js_decision_tree.xsl"),
 		success: XSLtransformation
 	});
 	
