@@ -9,3 +9,13 @@ WORKDIR /usr/local/apache2/htdocs/
 
 # Symlink websites into htdocs directory
 RUN ["ln", "-s", "/data/collect/build", "collect"]
+
+RUN ["ln", "-s", "/data/example", "example"]
+
+RUN ["ln", "-s", "/data/models", "models"]
+
+RUN ["ln", "-s", "/data/pmml2js", "pmml2js"]
+
+RUN ["ln", "-s", "/data/stylesheets", "stylesheets"]
+
+RUN ["ln", "-s", "/data/transformationstyles", "transformationstyles"]
