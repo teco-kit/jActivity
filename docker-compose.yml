@@ -24,6 +24,8 @@ opencpu:
     ports:
         - "8004:8004"
         - "81:80"
+    links:
+        - mysql
 apache:
     build: ./apache
     volumes:

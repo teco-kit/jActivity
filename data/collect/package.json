@@ -1,7 +1,7 @@
 {
-  "name": "angular-es6-sample",
+  "name": "jactivity_collect",
   "version": "0.1.0",
-  "description": "A sample how to use Angular 1.x with ECMAScript 6",
+  "description": "Collect website for jactivity. Uses Angular 1.x with ECMAScript 6",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,7 @@
     "angular",
     "es6"
   ],
-  "author": "Tim Roes <mail@timroes.de>",
+  "author": "David Greiner <greiner@teco.edu>",
   "license": "CC0",
   "bugs": {
     "url": "https://github.com/timroes/angular-es6-sample/issues"
