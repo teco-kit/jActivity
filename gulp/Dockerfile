@@ -23,4 +23,4 @@ MAINTAINER  David Greiner <greiner@teco.edu>
 #CMD cd /data/collect && gulp watch
 #CMD ls /data/collect
 
-CMD cd /data/collect && npm install
+#CMD cd /data/collect && npm install
