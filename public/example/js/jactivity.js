@@ -1,8 +1,3 @@
-/*
-Code snippet to be included in the test website
-*/
-
-//document.getElementById("test").value="I'm just the default value!";
 
 var evaluateInterval = 2000; // in milliseconds
 
@@ -50,7 +45,7 @@ var treeTransformation = function(data){
 					break;
 				case "still":
 					//set text size to standard (see example code)
-					document.getElementById("test").innerHTML="You not moving!";
+					document.getElementById("test").innerHTML="You are not moving!";
 					break;
 			}
 
@@ -106,7 +101,8 @@ var treeTransformation = function(data){
 	
 	$.ajax({
 		type: "GET",
-		url: ("http://" + host + ":3000/pmml2js_decision_tree.xsl"),
+		url: ("http://localhost:3000/pmml2js_decision_tree.xsl"),
+//		url: ("http://" + host + ":3000/pmml2js_decision_tree.xsl"),
 		success: XSLtransformation
 	});
 	
@@ -115,9 +111,8 @@ var treeTransformation = function(data){
 
 //get PMML in XML format and transform it via XSL to a file
 
-host = location.host.split(":")[0]
-url = "http://" + host + ":3551/ocpu/library/jActivity2PMML/R/getPMML/json"
-
+host = "docker.teco.edu"
+url = "http://" + host + ":8004/ocpu/library/jActivity2PMML/R/getPMML/json"
 
 $.ajax({
   type: "POST",
