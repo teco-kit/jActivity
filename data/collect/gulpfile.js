@@ -10,10 +10,11 @@ var plugins = require('gulp-load-plugins')();
 var src = {
 	html: 'src/**/*.html',
 	libs: 'src/libs/**',
-	scripts: {
-		all: 'src/scripts/**/*.js',
-		app: 'src/scripts/app.js'
-	}
+	app: {
+		all: 'src/app/**/*.js',
+		app: 'src/app/app.js'
+	},
+	scripts: 'src/scripts/**'
 };
 
 var build = 'build/';
@@ -33,7 +34,7 @@ gulp.task('html', function() {
 
 /* The jshint task runs jshint with ES6 support. */
 gulp.task('jshint', function() {
-	return gulp.src(src.scripts.all)
+	return gulp.src(src.app.all)
 		.pipe(plugins.jshint({
 			esnext: true // Enable ES6 support
 		}))
@@ -47,11 +48,18 @@ gulp.task('libs', function() {
 		.pipe(plugins.connect.reload());
 });
 
+gulp.task('scripts', function() {
+	/* In a real project you of course would use npm or bower to manage libraries. */
+	return gulp.src(src.scripts)
+		.pipe(gulp.dest(out.scripts.folder))
+		.pipe(plugins.connect.reload());
+});
+
 /* Compile all script files into one output minified JS file. */
-gulp.task('scripts', ['jshint'], function() {
+gulp.task('app', ['jshint'], function() {
 
 	var sources = browserify({
-		entries: src.scripts.app,
+		entries: src.app.app,
 		debug: true // Build source maps
 	})
 	.transform(babelify.configure({
@@ -87,8 +95,9 @@ gulp.task('serve', ['build', 'watch'], function() {
 gulp.task('watch', function() {
 	gulp.watch(src.libs, ['libs']);
 	gulp.watch(src.html, ['html']);
-	gulp.watch(src.scripts.all, ['scripts']);
+	gulp.watch(src.app.all, ['app']);
+	gulp.watch(src.scripts, ['scripts']);
 })
 
-gulp.task('build', ['scripts', 'html', 'libs']);
+gulp.task('build', ['app', 'html', 'libs', 'scripts']);
 gulp.task('default', ['serve']);
