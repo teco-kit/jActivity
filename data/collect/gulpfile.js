@@ -9,6 +9,7 @@ var plugins = require('gulp-load-plugins')();
 
 var src = {
 	html: 'src/**/*.html',
+	fonts: 'src/fonts/**',
 	libs: 'src/libs/**',
 	app: {
 		all: 'src/app/**/*.js',
@@ -23,7 +24,8 @@ var out = {
 	scripts: {
 		file: 'app.min.js',
 		folder: build + 'scripts/'
-	}
+	},
+	fonts: build + 'fonts/'
 }
 
 gulp.task('html', function() {
@@ -52,6 +54,13 @@ gulp.task('scripts', function() {
 	/* In a real project you of course would use npm or bower to manage libraries. */
 	return gulp.src(src.scripts)
 		.pipe(gulp.dest(out.scripts.folder))
+		.pipe(plugins.connect.reload());
+});
+
+gulp.task('fonts', function() {
+	/* In a real project you of course would use npm or bower to manage libraries. */
+	return gulp.src(src.fonts)
+		.pipe(gulp.dest(out.fonts))
 		.pipe(plugins.connect.reload());
 });
 
@@ -95,9 +104,10 @@ gulp.task('serve', ['build', 'watch'], function() {
 gulp.task('watch', function() {
 	gulp.watch(src.libs, ['libs']);
 	gulp.watch(src.html, ['html']);
+	gulp.watch(src.fonts, ['fonts']);
 	gulp.watch(src.app.all, ['app']);
 	gulp.watch(src.scripts, ['scripts']);
 })
 
-gulp.task('build', ['app', 'html', 'libs', 'scripts']);
+gulp.task('build', ['app', 'html', 'libs', 'scripts', 'fonts']);
 gulp.task('default', ['serve']);
