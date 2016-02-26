@@ -66,4 +66,4 @@ At the moment, only Decision Trees are supported as PMML models.
 You can provide training data by visiting the following website with your browser:
 http://docker.teco.edu:82/collect/
 
-There you can choose the sensor sources (devicemotion, deviceorientation, tocuh) and the label.
+There you can choose the sensor sources (devicemotion, deviceorientation, touch) and the label.
