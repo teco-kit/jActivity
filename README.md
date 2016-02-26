@@ -24,7 +24,9 @@ The web front-end for collecting the sensor data is located in the 'data/collect
 ## Running a decision tree classifier in your website
 
 First, you have to include our jactivity javascript into your website:
-```<script src="js/jactivity.js"></script>```
+```javascript
+<script src="js/jactivity.js"></script>
+```
 
 This script can be adjusted to you personal needs.
 At the end of the file, we send a post request to the opencpu server to receive the PMML classifiers.
@@ -44,10 +46,14 @@ With the switch statement within the evaluateData function, you can define the a
 Exemplarily, the statement differentiates between walking and still and triggers different actions.
 
 Second, you need to include the transformer.js that allows to transform PMML models to javascript code.
-```<script src="../pmml2js/js/transformer.js"></script>```
+```javascript
+<script src="../pmml2js/js/transformer.js"></script>
+```
 
 And, in conjunction with that, you need to include a javascript specific for the PMML model type, e.g. decision tree:
-```<script src="../pmml2js/js/decisiontree_engine.js"></script>```
+```javascript
+<script src="../pmml2js/js/decisiontree_engine.js"></script>
+```
 
 
 ## Available Functionality
