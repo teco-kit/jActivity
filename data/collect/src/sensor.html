@@ -1,0 +1,9 @@
+<div class="container">
+	<h1>Collect Data</h1>
+	Collect data manually or with timer  <input type="number" name="quantity" min="0" style="width: 45px;" value="0" ng-model="deadline"> sec (0 = infinite)<br>
+	<timer interval="1000" countdown="deadline" autostart="false" finish-callback="stop()"/>
+  	<button type="button" ng-click="start()" class="btn btn-primary" ng-click="start(deadline)" ng-disabled="timerRunning">Start</button> <span>{{countdown}}</span>
+	<div ng-bind-html="sensorHTML">
+	</div>
+	<button type="button" ng-click="stop()" class="btn btn-primary" ng-disabled="!timerRunning">Stop</button> <span>{{countdown}}</span>
+</div>
