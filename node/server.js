@@ -115,7 +115,11 @@ router.route('/features/:feature')
 	query += keys + ') VALUES(' + values + ');';
 	//var query = 'INSERT INTO `deviceorientation_apple_chrome_470` (`id`,`label`,`timestamp`,`beta`,`gamma`,`alpha`,`absolute`) VALUES ("1","Sitting","' + Date.now() + '","' + json["beta"] + '","' + json["gamma"] + '","' + json["alpha"] + '","' + json["absolute"] + '")';
 	console.log(query);
-	connection.query(query);
+	connection.query(query, function(err, results, fields) {
+        if (err) {
+            return;
+        }
+    });
 	res.header("Access-Control-Allow-Origin", "*");
 	res.end();
 })
