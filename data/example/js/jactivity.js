@@ -47,6 +47,9 @@ var treeTransformation = function(data){
 					//set text size to standard (see example code)
 					document.getElementById("test").innerHTML="You are not moving!";
 					break;
+				default:
+					document.getElementById("test").innerHTML=averageData.toString();
+					break;
 			}
 
 		}
