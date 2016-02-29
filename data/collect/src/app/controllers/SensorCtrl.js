@@ -1,9 +1,10 @@
 export default function($scope, $filter, $location, $templateRequest, $sce, sharedConfig) {
 	'ngInject';
 
-	var config = sharedConfig.getConfig();
+	var features = sharedConfig.getFeatures();
+	var label = sharedConfig.getLabel();
 
-	console.log(config);
+	console.log(features);
 
 	var pr = '', en = false, uniqid;
 
@@ -23,7 +24,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
 			console.log(data);
 			data.id = uniqid;
 			data.timestamp = Date.now();
-			data.label = config.label;
+			data.label = label;
 			data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
 			var json = JSON.stringify(data);
 			if(json !== '{}') {
@@ -39,7 +40,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
 
 	var sensors = [];
 
-	config.forEach(function(key) {
+	features.forEach(function(key) {
 		if (typeof(key.html) != "undefined" && key.html !== "")
 		{
 			console.log("html/" + key.html);

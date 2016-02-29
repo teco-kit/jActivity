@@ -17,17 +17,18 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
 	labels.then(function (data)
 	{
 		$scope.labels = data;
-		$scope.mylabel = $scope.labels.data[0].name;
+		$scope.myName = $scope.labels.data[0].name;
+		$scope.myLabel = $scope.labels.data[0].label;
 	});
 
-	$scope.changeLabel = function(newLabel) {
-        $scope.mylabel= newLabel;
+	$scope.changeLabel = function(newName, newLabel) {
+        $scope.myName= newName;
+        $scope.myLabel= newLabel;
     };
 
     $scope.next = function (){
-		var config = $filter('filter')($scope.features.data, {value: true});
-		config.label = $scope.mylabel;
-		sharedConfig.setConfig(config);
+		var features = $filter('filter')($scope.features.data, {value: true});
+		sharedConfig.setConfig(features, $scope.myLabel);
     	$location.path("/sensor");
 	};
 

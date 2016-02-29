@@ -18,13 +18,18 @@ angular.module('myApp', ['ui.bootstrap', 'ui.router', 'timer'])
 	.filter('label', labelFilter)
 	.service('sharedConfig', function () {
         var config = {};
+        var label = "";
 
         return {
-            getConfig: function () {
-                return config;
+            getFeatures: function () {
+                return features;
             },
-            setConfig: function(value) {
-                config = value;
+            getLabel: function () {
+                return label;
+            },
+            setConfig: function(_features, _label) {
+                features = _features;
+                label = _label;
             }
         };
 	 })
