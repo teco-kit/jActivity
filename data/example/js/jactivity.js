@@ -40,11 +40,11 @@ var treeTransformation = function(data){
 					//both have to be done if not yet set to "right"
 					break;
 				case "walking":
-					//increase text size by 1.2 (see example code)
+					document.body.style.fontSize = "1.2em";
 					document.getElementById("test").innerHTML="You are walking!";
 					break;
-				case "still":
-					//set text size to standard (see example code)
+				case "standing":
+					document.body.style.fontSize = "1.0em";
 					document.getElementById("test").innerHTML="You are not moving!";
 					break;
 				default:
