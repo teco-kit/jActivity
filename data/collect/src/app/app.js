@@ -17,7 +17,7 @@ angular.module('myApp', ['ui.bootstrap', 'ui.router', 'timer'])
 	.filter('sensor', sensorFilter)
 	.filter('label', labelFilter)
 	.service('sharedConfig', function () {
-        var config = {};
+        var features = {};
         var label = "";
 
         return {
