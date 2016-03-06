@@ -9,9 +9,10 @@ RUN mkdir /app
 WORKDIR /app
 
 ADD package.json package.json
-ADD server.js server.js
 
 RUN npm install
+
+ADD server.js server.js
 
 EXPOSE 8888
 
