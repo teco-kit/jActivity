@@ -14,11 +14,17 @@ var touchevents = function (sandbox) {
 				pageX : event.changedTouches[i].pageX,
 				pageY : event.changedTouches[i].pageY
 			}
-			
+
+      if (typeof window.innerWidth != 'undefined')
+      {
+        json.width = window.innerWidth;
+        json.height = window.innerHeight;
+      }
+
 			sandbox.send(json);
 		}
 	}
-	
+
 	function touchend(event) {
 		for(var i = 0; i < event.changedTouches.length; i++) {
 			var json = {
@@ -33,11 +39,17 @@ var touchevents = function (sandbox) {
 				pageX : event.changedTouches[i].pageX,
 				pageY : event.changedTouches[i].pageY
 			}
-			
+
+      if (typeof window.innerWidth != 'undefined')
+      {
+        json.width = window.innerWidth;
+        json.height = window.innerHeight;
+      }
+
 			sandbox.send(json);
 		}
 	}
-	
+
 	function touchmove(event) {
 		for(var i = 0; i < event.changedTouches.length; i++) {
 			var json = {
@@ -52,11 +64,17 @@ var touchevents = function (sandbox) {
 				pageX : event.changedTouches[i].pageX,
 				pageY : event.changedTouches[i].pageY
 			}
-			
+
+      if (typeof window.innerWidth != 'undefined')
+      {
+        json.width = window.innerWidth;
+        json.height = window.innerHeight;
+      }
+
 			sandbox.send(json);
 		}
 	}
-	
+
 	function touchcancel(event) {
 		for(var i = 0; i < event.changedTouches.length; i++) {
 			var json = {
@@ -71,7 +89,13 @@ var touchevents = function (sandbox) {
 				pageX : event.changedTouches[i].pageX,
 				pageY : event.changedTouches[i].pageY
 			}
-			
+
+      if (typeof window.innerWidth != 'undefined')
+      {
+        json.width = window.innerWidth;
+        json.height = window.innerHeight;
+      }
+
 			sandbox.send(json);
 		}
 	}
