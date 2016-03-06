@@ -21,15 +21,16 @@
 				<div class="col-lg8">
 					<form role="form">
 					    <div class="input-group">
-					    	<input type="text" class="form-control" data-id="{{myLabel}}" ng-model="myName">
+					    	<input type="text" class="form-control" ng-model="myName">
 					    	<div class="input-group-btn">
 					    		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 					    		<ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
-					    			<li ng-repeat="label in labels.data" class="input-lg"><a href="#" ng-click="changeLabel(label.name, label.label)">{{label.name}}</a></li>
+					    			<li ng-repeat="label in labels" class="input-lg"><a href="#" ng-click="changeLabel(label.name)">{{label.name}}</a></li>
 					    		</ul>
 					    	</div>
 					    </div>
 					</form>
+					{{labelMessage}}
 				</div>
 				<div class="col-lg12">
 					<p>{{ua.device.manufacturer}} {{ua.device.name}} ({{ua.device.type}}) using {{ua.browser.family}} {{ua.browser.major}}.{{ua.browser.minor}}</p>

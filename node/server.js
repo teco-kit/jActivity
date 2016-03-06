@@ -72,9 +72,9 @@ router.route('/labels')
 
 // get all the labels (accessed at GET)
 .get(function(req, res) {
-    
+
     getQuery('SELECT * FROM `labels`', res);
-    
+
 });
 
 
@@ -83,15 +83,34 @@ router.route('/features')
 // create a feature (accessed at POST)
 .post(function(req, res) {
 
-   //TODO: Implement create feature
+  var json = JSON.parse(req.body);
+  console.log(JSON.stringify(json));
+  var query = 'INSERT INTO `labels` (';
+  var keys = "", values = "";
+
+ for(var data in json) {
+     keys += '`' + data + '`, ';
+     values += "'" + json[data] + "',";
+ }
+ keys = keys.slice(0, -2);
+ values = values.slice(0, -1);
+ query += keys + ') VALUES(' + values + ');';
+ console.log(query);
+ connection.query(query, function(err, results, fields) {
+        if (err) {
+            return;
+        }
+    });
+ res.header("Access-Control-Allow-Origin", "*");
+ res.end();
 
 })
 
 // get all the features (accessed at GET)
 .get(function(req, res) {
-    
+
     getQuery('SELECT * FROM `features`', res);
-    
+
 });
 
 router.route('/features/:feature')
@@ -102,10 +121,10 @@ router.route('/features/:feature')
     console.log(JSON.stringify(json));
     var query = 'INSERT INTO `' + json['sensor'] + '` (';
 	var keys = "", values = "";
-	
-	
+
+
 	delete json['sensor'];
-	
+
 	for(var data in json) {
 	    keys += '`' + data + '`, ';
 	    values += "'" + json[data] + "',";
@@ -126,20 +145,20 @@ router.route('/features/:feature')
 
 // get the feature with that id
 .get(function(req, res) {
-	
+
 	var feature = req.params.feature;
 	getQuery('SELECT * FROM `' + feature + '`', res);
-    
+
 })
 
 // update the feature with this id
 .put(function(req, res) {
-    
+
 })
 
 // delete the feature with this id
 .delete(function(req, res) {
-    
+
 });
 
 // REGISTER OUR ROUTES -------------------------------
