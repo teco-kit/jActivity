@@ -66,23 +66,6 @@ router.route('/labels')
 // create a new label (accessed at POST)
 .post(function(req, res) {
 
-	//TODO: Implement create labels
-
-})
-
-// get all the labels (accessed at GET)
-.get(function(req, res) {
-
-    getQuery('SELECT * FROM `labels`', res);
-
-});
-
-
-router.route('/features')
-
-// create a feature (accessed at POST)
-.post(function(req, res) {
-
   var json = JSON.parse(req.body);
   console.log(JSON.stringify(json));
   var query = 'INSERT INTO `labels` (';
@@ -103,6 +86,23 @@ router.route('/features')
     });
  res.header("Access-Control-Allow-Origin", "*");
  res.end();
+
+})
+
+// get all the labels (accessed at GET)
+.get(function(req, res) {
+
+    getQuery('SELECT * FROM `labels`', res);
+
+});
+
+
+router.route('/features')
+
+// create a feature (accessed at POST)
+.post(function(req, res) {
+
+  //TODO: Implement create features
 
 })
 
