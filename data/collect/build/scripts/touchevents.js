@@ -1,8 +1,4 @@
 var touchevents = function(sandbox) {
-
-  var firstTouchX, firstTouchY = new Array(10);
-  var lastTouchX, lastTouchY = new Array(10);
-
   function touchstart(event) {
     for (var i = 0; i < event.changedTouches.length; i++) {
       if (typeof window.innerWidth != 'undefined') {
@@ -82,6 +78,8 @@ var touchevents = function(sandbox) {
 
   return {
     start: function() {
+      var firstTouchX, firstTouchY = new Array(10);
+      var lastTouchX, lastTouchY = new Array(10);
       document.addEventListener('touchstart', touchstart); // when the user places a touch point on the touch surface
       document.addEventListener('touchend', touchend); // when the user removes a touch point from the touch surface, also including cases where the touch point physically leaves the touch surface, such as being dragged off of the screen.
       document.addEventListener('touchmove', touchmove); // when the user moves a touch point along the touch surface
