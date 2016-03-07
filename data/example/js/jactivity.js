@@ -77,8 +77,8 @@ var treeTransformation = function(data) {
     }
 
 
-    var firstTouchX, firstTouchY = {};
-    var lastTouchX, lastTouchY = {};
+    var firstTouchX, firstTouchY = new Array(10);
+    var lastTouchX, lastTouchY = new Array(10);
 
     function touchstartListener(event) {
       for (var i = 0; i < event.changedTouches.length; i++) {
@@ -104,8 +104,8 @@ var treeTransformation = function(data) {
           (dataset2.totalVectorY = dataset2.totalVectorY || []).push(yRatio - firstTouchY[i]);
           (dataset2.stepVectorX = dataset2.stepVectorX || []).push(xRatio - lastTouchX[i]);
           (dataset2.stepVectorY = dataset2.stepVectorY || []).push(yRatio - lastTouchY[i]);
-          firstTouchX, firstTouchY = {};
-          lastTouchX, lastTouchY = {};
+          firstTouchX[i], firstTouchY[i] = "";
+          lastTouchX[i], lastTouchY[i] = "";
         }
       }
     }
@@ -134,8 +134,8 @@ var treeTransformation = function(data) {
           (dataset2.totalVectorY = dataset2.totalVectorY || []).push(yRatio - firstTouchY[i]);
           (dataset2.stepVectorX = dataset2.stepVectorX || []).push(xRatio - lastTouchX[i]);
           (dataset2.stepVectorY = dataset2.stepVectorY || []).push(yRatio - lastTouchY[i]);
-          firstTouchX, firstTouchY = {};
-          lastTouchX, lastTouchY = {};
+          firstTouchX[i], firstTouchY[i] = "";
+          lastTouchX[i], lastTouchY[i] = "";
         }
       }
     }

@@ -1,7 +1,7 @@
 var touchevents = function(sandbox) {
 
-  var firstTouchX, firstTouchY = {};
-  var lastTouchX, lastTouchY = {};
+  var firstTouchX, firstTouchY = new Array(10);
+  var lastTouchX, lastTouchY = new Array(10);
 
   function touchstart(event) {
     for (var i = 0; i < event.changedTouches.length; i++) {
@@ -35,8 +35,8 @@ var touchevents = function(sandbox) {
           totalVectorX: xRatio - firstTouchX[i],
           totalVectorY: yRatio - firstTouchY[i]
         }
-        firstTouchX, firstTouchY = {};
-        lastTouchX, lastTouchY = {};
+        firstTouchX[i], firstTouchY[i] = "";
+        lastTouchX[i], lastTouchY[i] = "";
         sandbox.send(json);
       }
     }
@@ -73,8 +73,8 @@ var touchevents = function(sandbox) {
           totalVectorX: xRatio - firstTouchX[i],
           totalVectorY: yRatio - firstTouchY[i]
         }
-        firstTouchX, firstTouchY = {};
-        lastTouchX, lastTouchY = {};
+        firstTouchX[i], firstTouchY[i] = "";
+        lastTouchX[i], lastTouchY[i] = "";
         sandbox.send(json);
       }
     }
