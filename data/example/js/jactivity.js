@@ -14,8 +14,6 @@ var treeTransformation = function(data) {
     // Includes all data
     var dataset = {};
     var dataset2 = {};
-    var firstTouchX, firstTouchY = new Array(10);
-    var lastTouchX, lastTouchY = new Array(10);
 
     function evaluateData(event) {
       var averageData = {};
@@ -77,6 +75,11 @@ var treeTransformation = function(data) {
       (dataset.gamma = dataset.gamma || []).push(event.gamma);
       (dataset.alpha = dataset.alpha || []).push(event.alpha);
     }
+
+    var firstTouchX = [];
+    var firstTouchY = [];
+    var lastTouchX = [];
+    var lastTouchY = [];
 
     function touchstartListener(event) {
       for (var i = 0; i < event.changedTouches.length; i++) {

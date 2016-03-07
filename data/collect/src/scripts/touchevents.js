@@ -1,6 +1,9 @@
-var firstTouchX, firstTouchY = new Array(10);
-var lastTouchX, lastTouchY = new Array(10);
 var touchevents = function(sandbox) {
+  var firstTouchX = [];
+  var firstTouchY = [];
+  var lastTouchX = [];
+  var lastTouchY = [];
+
   function touchstart(event) {
     for (var i = 0; i < event.changedTouches.length; i++) {
       if (typeof window.innerWidth != 'undefined') {
