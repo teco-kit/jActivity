@@ -76,7 +76,9 @@ var treeTransformation = function(data) {
       (dataset.alpha = dataset.alpha || []).push(event.alpha);
     }
 
-
+    firstTouchX, firstTouchY = new Array(10);
+    lastTouchX, lastTouchY = new Array(10);
+    
     function touchstartListener(event) {
       for (var i = 0; i < event.changedTouches.length; i++) {
         if (typeof window.innerWidth != 'undefined') {
@@ -137,9 +139,6 @@ var treeTransformation = function(data) {
       }
     }
 
-
-    var firstTouchX, firstTouchY = new Array(10);
-    var lastTouchX, lastTouchY = new Array(10);
     // add listener for sensors
     // devicemotion
     window.addEventListener('devicemotion', devicemotionListener);
