@@ -7,11 +7,11 @@
 export default function($scope, $filter, $location, $templateRequest, $sce, sharedConfig) {
 	'ngInject';
 
+	/* Get previously defined features and labels */
 	var features = sharedConfig.getFeatures();
 	var labels = sharedConfig.getLabels();
 
-	console.log(features);
-
+	/* Generate unique ID for dataset */
 	var pr = '', en = false, uniqid;
 
 	this.seed = function (s, w) {
@@ -23,14 +23,17 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
 
 	if (en) uniqid += (Math.random() * 10).toFixed(8).toString();
 
+	/* Parse UserAgent using darcyclarke/Detect.js */
 	var ua = detect.parse(navigator.userAgent);
 
+	/* Sandbox for all feature collect scripts */
 	var sandbox = {
 		send: function(data) {
 			console.log(data);
 			data.id = uniqid;
 			data.timestamp = Date.now();
 			data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
+			/* Submit the data for each label */
 			labels.forEach(function(label) {
 				data.label = label;
 				var json = JSON.stringify(data);

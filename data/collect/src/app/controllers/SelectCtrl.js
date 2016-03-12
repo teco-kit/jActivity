@@ -7,10 +7,10 @@
 export default function($scope, $filter, $location, ModelService, sharedConfig) {
   'ngInject';
 
-
+  /* Parse UserAgent using darcyclarke/Detect.js */
   $scope.ua = detect.parse(navigator.userAgent);
 
-
+  /* Get Features using AJAX and generate sensor dependency list */
   $scope.features = [];
   $scope.sensors = [];
 
@@ -19,15 +19,13 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
     $scope.sensors = $filter('feature')($scope.features.data);
   });
 
+  /* Watch for newly selected features and change sensor depency list accordingly */
   $scope.$watch('features', function(newVal, oldVal, scope) {
     $scope.sensors = $filter('feature')($scope.features.data);
   }, true);
 
 
-  function machineReadableString(string) {
-    return string.replace(/([^a-z0-9]+)/gi, '-').toLowerCase();
-  }
-
+  /* Get Labels and prepare them using mbenford/ngTagsInput */
   $scope.labels = [];
 
   $scope.loadLabels = function($query) {
@@ -39,16 +37,20 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
     });
   };
 
-
+  /* Advance to collect page */
   $scope.next = function() {
+    /* Add new labels to database */
     var labels = [];
     $scope.labels.forEach(function(label, index) {
+      /* Label variable is undefined for new labels */
       if (typeof label.label === 'undefined') {
-        $scope.labels[index].label = machineReadableString(label.name);
+        /* Generate machine-readable string as identifier (only alphanumeric with dash) */
+        $scope.labels[index].label = label.name.replace(/([^a-z0-9]+)/gi, '-').toLowerCase();
         var data = {
           label: label.label,
           name: label.name
         };
+        /* Send new label to database */
         var json = JSON.stringify(data);
         if (json !== '{}') {
           var req = new XMLHttpRequest();
@@ -57,9 +59,11 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
           req.send(json);
         }
       }
+      /* Push each defined label on array */
       labels.push(label.label);
     });
 
+    /* Only pass on selected features */
     var features = $filter('filter')($scope.features.data, {
       value: true
     });
