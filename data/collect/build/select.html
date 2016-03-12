@@ -1,0 +1,37 @@
+<!--
+	Copyright 2016 KIT Institute for Telematics TecO - David Greiner
+	This file is subject to the terms and conditions defined in
+	file 'LICENSE', which is part of this source code package.
+-->
+
+<div class="container">
+	<h1>Collect Data</h1>
+	<div class="row">
+		<div class="col-lg12">
+			<label ng-repeat="feature in features.data" class="btn btn-checkbox" ng-model="feature.value" btn-checkbox><span class="icon-{{feature.icon}}"></span>
+				<br>{{feature.name}}</label>
+		</div>
+		<div class="col-lg12">
+			<p>Select a feature you want to collect data for. You can collect data for multiple features simultaneously.</p>
+		</div>
+		<div ng-show="sensors.length">
+			<h2>Feature Requirements</h2>
+			<div class="col-lg12">
+				<ul>
+					<li ng-repeat="sensor in sensors" class="icon-{{sensor.support}}">{{sensor.name}}</li>
+				</ul>
+			</div>
+			<h2>Feature Label</h2>
+			<div class="col-lg8">
+				<tags-input ng-model="labels" display-property="name" placeholder="Add a label" replace-spaces-with-dashes="false">
+					<auto-complete source="loadLabels($query)" min-length="0" load-on-focus="true" load-on-empty="true"></auto-complete>
+				</tags-input>
+				<p>Give the dataset a label. You can select multiple ones and type your own seperated by a comma.</p>
+			</div>
+			<div class="col-lg12">
+				<p>{{ua.device.manufacturer}} {{ua.device.name}} ({{ua.device.type}}) using {{ua.browser.family}} {{ua.browser.major}}.{{ua.browser.minor}}</p>
+				<button type="button" ng-disabled="labels.length == 0" ng-click="next()" class="btn btn-primary">Next</button>
+			</div>
+		</div>
+	</div>
+</div>

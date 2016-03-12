@@ -1,3 +1,9 @@
+/*
+	Copyright 2016 KIT Institute for Telematics TecO - David Greiner
+	This file is subject to the terms and conditions defined in
+	file 'LICENSE', which is part of this source code package.
+*/
+
 export default function($scope, $filter, $location, $templateRequest, $sce, sharedConfig) {
 	'ngInject';
 

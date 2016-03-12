@@ -1,20 +1,20 @@
 /*
-  Import all Angular components via ES6 imports and register them
-  at your module via their corresponding functions (controller, service, etc.).
-  Copyright 2016 KIT Institute for Telematics TecO - David Greiner
+	Copyright 2016 KIT Institute for Telematics TecO - David Greiner
+	This file is subject to the terms and conditions defined in
+	file 'LICENSE', which is part of this source code package.
 */
 
-import ButtonsCtrl from './controllers/ButtonsCtrl';
-import SensorCtrl from './controllers/SensorCtrl';
+import SelectCtrl from './controllers/SelectCtrl';
+import CollectCtrl from './controllers/CollectCtrl';
 import ModelService from './services/ModelService';
-import sensorFilter from './filters/sensorFilter';
+import featureFilter from './filters/featureFilter';
 import labelFilter from './filters/labelFilter';
 
 angular.module('myApp', ['ui.bootstrap', 'ui.router', 'ngTagsInput', 'timer'])
 	.service('ModelService', ModelService)
-	.controller('ButtonsCtrl', ButtonsCtrl)
-	.controller('SensorCtrl', SensorCtrl)
-	.filter('sensor', sensorFilter)
+	.controller('SelectCtrl', SelectCtrl)
+	.controller('CollectCtrl', CollectCtrl)
+	.filter('feature', featureFilter)
 	.filter('label', labelFilter)
 	.service('sharedConfig', function () {
         var features = {};
@@ -37,17 +37,17 @@ angular.module('myApp', ['ui.bootstrap', 'ui.router', 'ngTagsInput', 'timer'])
   function($httpProvider, $stateProvider, $urlRouterProvider) {
 
     $stateProvider
+      .state('select', {
+        url: '/select',
+        templateUrl: 'select.html',
+        controller: 'SelectCtrl'
+      })
       .state('collect', {
         url: '/collect',
         templateUrl: 'collect.html',
-        controller: 'ButtonsCtrl'
-      })
-      .state('sensor', {
-        url: '/sensor',
-        templateUrl: 'sensor.html',
-        controller: 'SensorCtrl',
+        controller: 'CollectCtrl',
       });
 
-    $urlRouterProvider.otherwise('/collect');
+    $urlRouterProvider.otherwise('/select');
   }
 ]);

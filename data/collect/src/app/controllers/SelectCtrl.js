@@ -1,3 +1,9 @@
+/*
+	Copyright 2016 KIT Institute for Telematics TecO - David Greiner
+	This file is subject to the terms and conditions defined in
+	file 'LICENSE', which is part of this source code package.
+*/
+
 export default function($scope, $filter, $location, ModelService, sharedConfig) {
   'ngInject';
 
@@ -10,11 +16,11 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
 
   ModelService.getFeatures().then(function(data) {
     $scope.features = data;
-    $scope.sensors = $filter('sensor')($scope.features.data);
+    $scope.sensors = $filter('feature')($scope.features.data);
   });
 
   $scope.$watch('features', function(newVal, oldVal, scope) {
-    $scope.sensors = $filter('sensor')($scope.features.data);
+    $scope.sensors = $filter('feature')($scope.features.data);
   }, true);
 
 
@@ -59,7 +65,7 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
     });
 
     sharedConfig.setConfig(features, labels);
-    $location.path("/sensor");
+    $location.path("/collect");
   };
 
 }

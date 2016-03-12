@@ -4,24 +4,24 @@
 	file 'LICENSE', which is part of this source code package.
 */
 
-export default function labelFilter() {
+export default function featureFilter() {
   return function(input) {
     if (typeof input !== 'undefined') {
       var result = [];
       input.forEach(function(entry) {
         if (entry.value === true) {
-          result.concat(entry.sensors);
+          result.push(entry.feature);
         }
       });
       result = [...new Set(result)];
-      var sensors = [];
+      var features = [];
       result.forEach(function(entry) {
-        var sensor = {};
-        sensor.name = entry;
-        sensor.support = Modernizr[entry];
-        sensors.push(sensor);
+        var feature = {};
+        feature.name = entry;
+        feature.support = Modernizr[entry];
+        features.push(feature);
       });
-      return sensors;
+      return features;
     }
   };
 }
