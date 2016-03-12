@@ -10,7 +10,7 @@ import ModelService from './services/ModelService';
 import sensorFilter from './filters/sensorFilter';
 import labelFilter from './filters/labelFilter';
 
-angular.module('myApp', ['ui.bootstrap', 'ui.router', 'timer'])
+angular.module('myApp', ['ui.bootstrap', 'ui.router', 'ngTagsInput', 'timer'])
 	.service('ModelService', ModelService)
 	.controller('ButtonsCtrl', ButtonsCtrl)
 	.controller('SensorCtrl', SensorCtrl)
@@ -18,18 +18,18 @@ angular.module('myApp', ['ui.bootstrap', 'ui.router', 'timer'])
 	.filter('label', labelFilter)
 	.service('sharedConfig', function () {
         var features = {};
-        var label = "";
+        var labels = {};
 
         return {
             getFeatures: function () {
                 return features;
             },
-            getLabel: function () {
-                return label;
+            getLabels: function () {
+                return labels;
             },
-            setConfig: function(_features, _label) {
+            setConfig: function(_features, _labels) {
                 features = _features;
-                label = _label;
+                labels = _labels;
             }
         };
 	 })

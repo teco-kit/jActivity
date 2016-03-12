@@ -2,7 +2,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
 	'ngInject';
 
 	var features = sharedConfig.getFeatures();
-	var label = sharedConfig.getLabel();
+	var labels = sharedConfig.getLabels();
 
 	console.log(features);
 
@@ -24,15 +24,17 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
 			console.log(data);
 			data.id = uniqid;
 			data.timestamp = Date.now();
-			data.label = label;
 			data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
-			var json = JSON.stringify(data);
-			if(json !== '{}') {
-				var req = new XMLHttpRequest();
-				req.open('POST', "http://docker.teco.edu:3000/api/features/" + data.sensor);
-				req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-				req.send(json);
-			}
+			labels.forEach(function(label) {
+				data.label = label;
+				var json = JSON.stringify(data);
+				if(json !== '{}') {
+					var req = new XMLHttpRequest();
+					req.open('POST', "http://docker.teco.edu:3000/api/features/" + data.sensor);
+					req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+					req.send(json);
+				}
+			});
 		}
 	};
 
