@@ -1,10 +1,10 @@
 var evaluateInterval = 1000; // in milliseconds
 
-var treeTransformation = function(data) {
+var treeTransformationActivity = function(data) {
 
   var model = $.parseXML(data.pop());
 
-  var XSLtransformation = function(xsl_file) {
+  var XSLtransformationActivity = function(xsl_file) {
 
     var generated_code = transform(model, xsl_file);
     // generate a decision tree from the transformed file
@@ -13,9 +13,8 @@ var treeTransformation = function(data) {
 
     // Includes all data
     var dataset = {};
-    var dataset2 = {};
 
-    function evaluateData(event) {
+    function evaluateDataActivity(event) {
       var averageData = {};
 
       for (var sensor in dataset) {
@@ -31,23 +30,11 @@ var treeTransformation = function(data) {
 
       //define what to do with the result
       switch (res.toLowerCase()) {
-        case "left":
-          //add code to define that <div class="navbar navbar-default navbar-fixed-top" align="right"> with align="left"
-          //add code to change <div class="navmenu navmenu-default navmenu-fixed-right offcanvas"> to <div class="navmenu navmenu-default navmenu-fixed-left offcanvas">
-          //both have to be done if not yet set to "left"
-          break;
-        case "right":
-          //add code to define that <div class="navbar navbar-default navbar-fixed-top" align="left"> with align="right"
-          //add code to change <div class="navmenu navmenu-default navmenu-fixed-left offcanvas"> to <div class="navmenu navmenu-default navmenu-fixed-right offcanvas">
-          //both have to be done if not yet set to "right"
-          break;
         case "walking":
           document.body.style.fontSize = "1.2em";
-          document.getElementById("test").innerHTML = "You are walking!";
           break;
         case "standing":
           document.body.style.fontSize = "1.0em";
-          document.getElementById("test").innerHTML = "You are not moving!";
           break;
         default:
           document.getElementById("test").innerHTML = averageData.toString();
@@ -76,6 +63,74 @@ var treeTransformation = function(data) {
       (dataset.alpha = dataset.alpha || []).push(event.alpha);
     }
 
+    // add listener for sensors
+    // devicemotion
+    window.addEventListener('devicemotion', devicemotionListener);
+    // deviceorientation
+    window.addEventListener('deviceorientation', deviceorientationListener);
+    // add listener for interval
+    window.setInterval(evaluateDataActivity, evaluateInterval);
+
+  }
+
+  $.ajax({
+    type: "GET",
+    url: ("http://" + host + ":82/transformationstyles/pmml2js_decision_tree.xsl"),
+    success: XSLtransformationActivity
+  });
+
+
+}
+
+var treeTransformationHandedness = function(data) {
+
+  var model = $.parseXML(data.pop());
+
+  var XSLtransformationHandedness = function(xsl_file) {
+
+    var generated_code = transform(model, xsl_file);
+    // generate a decision tree from the transformed file
+    var decisionTree = eval(generated_code.textContent);
+
+
+    // Includes all data
+    var dataset = {};
+
+    function evaluateDataHandedness(event) {
+      var averageData = {};
+
+      for (var sensor in dataset) {
+        averageData[sensor] = dataset[sensor].reduce(function(a, b) {
+          return a + b;
+        }, 0) / dataset[sensor].length;
+        dataset[sensor] = [];
+      }
+
+      var res = decisionTree.evaluate(averageData).result;
+
+      if (res == null) return;
+
+      //define what to do with the result
+      switch (res.toLowerCase()) {
+        case "left":
+          //add code to define that <div class="navbar navbar-default navbar-fixed-top" align="right"> with align="left"
+          //add code to change <div class="navmenu navmenu-default navmenu-fixed-right offcanvas"> to <div class="navmenu navmenu-default navmenu-fixed-left offcanvas">
+          //both have to be done if not yet set to "left"
+          document.getElementById("test").innerHTML = "You are operating in left hand mode!";
+          break;
+        case "right":
+          //add code to define that <div class="navbar navbar-default navbar-fixed-top" align="left"> with align="right"
+          //add code to change <div class="navmenu navmenu-default navmenu-fixed-left offcanvas"> to <div class="navmenu navmenu-default navmenu-fixed-right offcanvas">
+          //both have to be done if not yet set to "right"
+          document.getElementById("test").innerHTML = "You are operating in right hand mode!";
+          break;
+        default:
+          document.getElementById("test").innerHTML = averageData.toString();
+          break;
+      }
+
+    }
+
     var firstTouchX = [];
     var firstTouchY = [];
     var lastTouchX = [];
@@ -86,7 +141,7 @@ var treeTransformation = function(data) {
         if (typeof window.innerWidth != 'undefined') {
           xRatio = event.changedTouches[i].clientX / window.innerWidth;
           yRatio = event.changedTouches[i].clientY / window.innerHeight;
-          (dataset2.ratioX = dataset2.ratioX || []).push(xRatio);
+          (dataset.ratioX = dataset.ratioX || []).push(xRatio);
           firstTouchX[i] = xRatio;
           firstTouchY[i] = yRatio;
           lastTouchX[i] = firstTouchX[i];
@@ -100,11 +155,11 @@ var treeTransformation = function(data) {
         if (typeof window.innerWidth != 'undefined') {
           xRatio = event.changedTouches[i].clientX / window.innerWidth;
           yRatio = event.changedTouches[i].clientY / window.innerHeight;
-          (dataset2.ratioX = dataset2.ratioX || []).push(xRatio);
-          (dataset2.totalVectorX = dataset2.totalVectorX || []).push(xRatio - firstTouchX[i]);
-          (dataset2.totalVectorY = dataset2.totalVectorY || []).push(yRatio - firstTouchY[i]);
-          (dataset2.stepVectorX = dataset2.stepVectorX || []).push(xRatio - lastTouchX[i]);
-          (dataset2.stepVectorY = dataset2.stepVectorY || []).push(yRatio - lastTouchY[i]);
+          (dataset.ratioX = dataset.ratioX || []).push(xRatio);
+          (dataset.totalVectorX = dataset.totalVectorX || []).push(xRatio - firstTouchX[i]);
+          (dataset.totalVectorY = dataset.totalVectorY || []).push(yRatio - firstTouchY[i]);
+          (dataset.stepVectorX = dataset.stepVectorX || []).push(xRatio - lastTouchX[i]);
+          (dataset.stepVectorY = dataset.stepVectorY || []).push(yRatio - lastTouchY[i]);
           firstTouchX[i], firstTouchY[i] = "";
           lastTouchX[i], lastTouchY[i] = "";
         }
@@ -116,9 +171,9 @@ var treeTransformation = function(data) {
         if (typeof window.innerWidth != 'undefined') {
           xRatio = event.changedTouches[i].clientX / window.innerWidth;
           yRatio = event.changedTouches[i].clientY / window.innerHeight;
-          (dataset2.ratioX = dataset2.ratioX || []).push(xRatio);
-          (dataset2.stepVectorX = dataset2.stepVectorX || []).push(xRatio - lastTouchX[i]);
-          (dataset2.stepVectorY = dataset2.stepVectorY || []).push(yRatio - lastTouchY[i]);
+          (dataset.ratioX = dataset.ratioX || []).push(xRatio);
+          (dataset.stepVectorX = dataset.stepVectorX || []).push(xRatio - lastTouchX[i]);
+          (dataset.stepVectorY = dataset.stepVectorY || []).push(yRatio - lastTouchY[i]);
           lastTouchX[i] = xRatio;
           lastTouchY[i] = yRatio;
         }
@@ -130,11 +185,11 @@ var treeTransformation = function(data) {
         if (typeof window.innerWidth != 'undefined') {
           xRatio = event.changedTouches[i].clientX / window.innerWidth;
           yRatio = event.changedTouches[i].clientY / window.innerHeight;
-          (dataset2.ratioX = dataset2.ratioX || []).push(xRatio);
-          (dataset2.totalVectorX = dataset2.totalVectorX || []).push(xRatio - firstTouchX[i]);
-          (dataset2.totalVectorY = dataset2.totalVectorY || []).push(yRatio - firstTouchY[i]);
-          (dataset2.stepVectorX = dataset2.stepVectorX || []).push(xRatio - lastTouchX[i]);
-          (dataset2.stepVectorY = dataset2.stepVectorY || []).push(yRatio - lastTouchY[i]);
+          (dataset.ratioX = dataset.ratioX || []).push(xRatio);
+          (dataset.totalVectorX = dataset.totalVectorX || []).push(xRatio - firstTouchX[i]);
+          (dataset.totalVectorY = dataset.totalVectorY || []).push(yRatio - firstTouchY[i]);
+          (dataset.stepVectorX = dataset.stepVectorX || []).push(xRatio - lastTouchX[i]);
+          (dataset.stepVectorY = dataset.stepVectorY || []).push(yRatio - lastTouchY[i]);
           firstTouchX[i], firstTouchY[i] = "";
           lastTouchX[i], lastTouchY[i] = "";
         }
@@ -142,10 +197,6 @@ var treeTransformation = function(data) {
     }
 
     // add listener for sensors
-    // devicemotion
-    window.addEventListener('devicemotion', devicemotionListener);
-    // deviceorientation
-    window.addEventListener('deviceorientation', deviceorientationListener);
     // touchevents
     document.addEventListener('touchstart', touchstartListener); // when the user places a touch point on the touch surface
     document.addEventListener('touchend', touchendListener); // when the user removes a touch point from the touch surface, also including cases where the touch point physically leaves the touch surface, such as being dragged off of the screen.
@@ -153,14 +204,14 @@ var treeTransformation = function(data) {
     document.addEventListener('touchcancel', touchcancelListener); // when a touch point has been disrupted in an implementation-specific manner
 
     // add listener for interval
-    window.setInterval(evaluateData, evaluateInterval);
+    window.setInterval(evaluateDataHandedness, evaluateInterval);
 
   }
 
   $.ajax({
     type: "GET",
     url: ("http://" + host + ":82/transformationstyles/pmml2js_decision_tree.xsl"),
-    success: XSLtransformation
+    success: XSLtransformationHandedness
   });
 
 
@@ -175,6 +226,14 @@ $.ajax({
   type: "POST",
   url: url,
   data: 'json_data={"sensor": ["devicemotion", "deviceorientation"],"label": ["walking", "standing"],"classifier": "rpart"}',
-  success: treeTransformation,
+  success: treeTransformationActivity,
+  dataType: "json"
+});
+
+$.ajax({
+  type: "POST",
+  url: url,
+  data: 'json_data={"sensor": ["touchevents"],"label": ["left", "right"],"classifier": "rpart"}',
+  success: treeTransformationHandedness,
   dataType: "json"
 });
