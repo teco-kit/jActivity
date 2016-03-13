@@ -7,9 +7,9 @@ var express = require("express"),
   pathExists = require('path-exists');
 
 
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
+  connectionLimit : 50,
   host: 'mysql',
-  port: '3306',
   user: 'admin',
   password: 'admin',
   database: 'jactivity2'
