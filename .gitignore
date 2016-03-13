@@ -36,7 +36,5 @@ node_modules
 data/collect/node_modules
 data/collect/npm-debug.log
 
-data/mysql
-
 
 .DS_Store
