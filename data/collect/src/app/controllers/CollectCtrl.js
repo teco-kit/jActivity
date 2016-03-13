@@ -5,100 +5,98 @@
 */
 
 export default function($scope, $filter, $location, $templateRequest, $sce, sharedConfig) {
-	'ngInject';
+  'ngInject';
 
-	/* Get previously defined features and labels */
-	var features = sharedConfig.getFeatures();
-	var labels = sharedConfig.getLabels();
+  /* Get previously defined features and labels */
+  var features = sharedConfig.getFeatures();
+  var labels = sharedConfig.getLabels();
 
-	/* Generate unique ID for dataset */
-	var pr = '', en = false, uniqid;
+  /* Generate unique ID for dataset */
+  var pr = '',
+    en = false,
+    uniqid;
 
-	this.seed = function (s, w) {
-		s = parseInt(s, 10).toString(16);
-		return w < s.length ? s.slice(s.length - w) : (w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
-	};
+  this.seed = function(s, w) {
+    s = parseInt(s, 10).toString(16);
+    return w < s.length ? s.slice(s.length - w) : (w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
+  };
 
-	uniqid = pr + this.seed(parseInt(new Date().getTime() / 1000, 10), 8) + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5);
+  uniqid = pr + this.seed(parseInt(new Date().getTime() / 1000, 10), 8) + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5);
 
-	if (en) uniqid += (Math.random() * 10).toFixed(8).toString();
+  if (en) uniqid += (Math.random() * 10).toFixed(8).toString();
 
-	/* Parse UserAgent using darcyclarke/Detect.js */
-	var ua = detect.parse(navigator.userAgent);
+  /* Parse UserAgent using darcyclarke/Detect.js */
+  var ua = detect.parse(navigator.userAgent);
 
-	/* Sandbox for all feature collect scripts */
-	var sandbox = {
-		send: function(data) {
-			console.log(data);
-			data.id = uniqid;
-			data.timestamp = Date.now();
-			data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
-			/* Submit the data for each label */
-			labels.forEach(function(label) {
-				data.label = label;
-				var json = JSON.stringify(data);
-				if(json !== '{}') {
-					var req = new XMLHttpRequest();
-					req.open('POST', "http://docker.teco.edu:3000/api/features/" + data.sensor);
-					req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-					req.send(json);
-				}
-			});
-		}
-	};
+  /* Sandbox for all feature collect scripts */
+  var sandbox = {
+    send: function(data) {
+      console.log(data);
+      data.id = uniqid;
+      data.timestamp = Date.now();
+      data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
+      data.label = labels;
+      var json = JSON.stringify(data);
+      if (json !== '{}') {
+        var req = new XMLHttpRequest();
+        req.open('POST', "http://docker.teco.edu:3000/api/features/" + data.sensor);
+        req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+        req.send(json);
+      }
+    }
+  };
 
-	$scope.HTML = "";
+  $scope.HTML = "";
 
-	var sensors = [];
+  var sensors = [];
 
-	features.forEach(function(key) {
-		if (typeof(key.html) != "undefined" && key.html !== "")
-		{
-			console.log("html/" + key.html);
+  features.forEach(function(key) {
+    if (typeof(key.html) != "undefined" && key.html !== "") {
+      console.log("html/" + key.html);
 
-			$templateRequest("html/" + key.html).then(function(html){
-		                $scope.sensorHTML = $sce.trustAsHtml(html);
-			});
-		}
-		//$scope.HTML = $scope.HTML + $templateCache.get("html/" + key.html);
-/*
-		// DOM: Create the script element
-	    var jsElm = document.createElement("script");
-	    // set the type attribute
-	    jsElm.type = "application/javascript";
-	    // make the script element load file
-	    jsElm.src = "scripts/" + key.script;
-	    // finally insert the element to the body element in order to load the script
-	    document.body.appendChild(jsElm);
+      $templateRequest("html/" + key.html).then(function(html) {
+        $scope.sensorHTML = $sce.trustAsHtml(html);
+      });
+    }
+    //$scope.HTML = $scope.HTML + $templateCache.get("html/" + key.html);
+    /*
+    		// DOM: Create the script element
+    	    var jsElm = document.createElement("script");
+    	    // set the type attribute
+    	    jsElm.type = "application/javascript";
+    	    // make the script element load file
+    	    jsElm.src = "scripts/" + key.script;
+    	    // finally insert the element to the body element in order to load the script
+    	    document.body.appendChild(jsElm);
 
 
-		jsElm.onload = function() {
+    		jsElm.onload = function() {
 
-		};*/
-		//inject.js("scripts/" + key.script, function() {
-			var sensor = new window[key.feature](sandbox);
-			sensors.push(sensor);
-    	//});
-	});
+    		};*/
+    //inject.js("scripts/" + key.script, function() {
+    var sensor = new window[key.feature](sandbox);
+    sensors.push(sensor);
+    //});
+  });
 
-	$scope.timerRunning = false;
+  $scope.timerRunning = false;
 
-	$scope.start = function (deadline) {
-		$scope.$broadcast('timer-start');
-		$scope.timerRunning = true;
-		sensors.forEach(function(sensor) {
-			sensor.start();
-		});
-	};
+  $scope.start = function(deadline) {
+    $scope.$broadcast('timer-start');
+    $scope.timerRunning = true;
+    sensors.forEach(function(sensor) {
+      sensor.start();
+    });
+  };
 
-	$scope.stop = function () {
-		console.log("stop");
-		$scope.timerRunning = false;
-		sensors.forEach(function(sensor) {
-			sensor.stop();
-			delete window.sensor;
-		});
-		$location.path("/sensor");
-	};
+  $scope.stop = function() {
+    console.log("stop");
+    $scope.timerRunning = false;
+    sensors.forEach(function(sensor) {
+      sensor.stop();
+      delete window.sensor;
+    });
+    $location.path("/sensor");
+  };
 
 }
