@@ -8,37 +8,43 @@ var express = require("express"),
 
 
 var pool = mysql.createPool({
-  connectionLimit : 50,
+  connectionLimit: 50,
   host: 'mysql',
   user: 'admin',
   password: 'admin',
   database: 'jactivity2'
 });
 
-function handle_database(req,res) {
+function handle_database(req, res) {
 
-     pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }
+  pool.getConnection(function(err, connection) {
+    if (err) {
+      connection.release();
+      res.json({
+        "code": 100,
+        "status": "Error in connection database"
+      });
+      return;
+    }
 
-         console.log('connected as id ' + connection.threadId);
+    console.log('connected as id ' + connection.threadId);
 
-         connection.query(req,function(err,rows){
-             connection.release();
-             if(!err) {
-                 res.json(rows);
-             }
-         });
+    connection.query(req, function(err, rows) {
+      connection.release();
+      if (!err) {
+        res.json(rows);
+      }
+    });
 
-         connection.on('error', function(err) {
-               res.json({"code" : 100, "status" : "Error in connection database"});
-               return;
-         });
-   });
- }
+    connection.on('error', function(err) {
+      res.json({
+        "code": 100,
+        "status": "Error in connection database"
+      });
+      return;
+    });
+  });
+}
 
 var app = express();
 
@@ -86,8 +92,8 @@ router.route('/labels')
   values = values.slice(0, -1);
   query += keys + ') VALUES(' + values + ');';
   console.log(query);
-  var = res;
-  handle_database(query,res);
+  var res;
+  handle_database(query, res);
   res.header("Access-Control-Allow-Origin", "*");
   res.end();
 
@@ -143,8 +149,8 @@ router.route('/features/:feature')
     values += "'" + label + "'";
     query += keys + ') VALUES(' + values + ');';
     console.log(query);
-    var = res;
-    handle_database(query,res);
+    var res;
+    handle_database(query, res);
   }
   res.header("Access-Control-Allow-Origin", "*");
   res.end();
