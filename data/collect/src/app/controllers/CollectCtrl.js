@@ -35,7 +35,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
       data.id = uniqid;
       data.timestamp = Date.now();
       data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
-      data.label = labels;
+      data.labels = labels;
       var json = JSON.stringify(data);
       if (json !== '{}') {
         var req = new XMLHttpRequest();
