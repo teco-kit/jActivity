@@ -144,9 +144,9 @@ router.route('/features/:feature')
   }
   keys = keys.slice(0, -2);
   values = values.slice(0, -1);
-  for (var label in labels) {
+  for (var i = 0; i < labels.length; i++) {
     keys += '`label`';
-    values += "'" + label + "'";
+    values += "'" + label[i] + "'";
     query += keys + ') VALUES(' + values + ');';
     console.log(query);
     var res;
