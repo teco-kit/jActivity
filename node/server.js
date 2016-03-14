@@ -7,7 +7,7 @@ var express = require("express"),
   pathExists = require('path-exists');
 
 
-var connection = mysql.createPool({
+var pool = mysql.createPool({
   connectionLimit : 50,
   host: 'mysql',
   user: 'admin',
@@ -15,34 +15,36 @@ var connection = mysql.createPool({
   database: 'jactivity2'
 });
 
-connection.connect(function(error) {
-  if (!error) {
-    console.log("Database connection established.");
-  } else {
-    console.log("Database connection failed.");
-  }
-});
+function handle_database(req,res) {
+
+     pool.getConnection(function(err,connection){
+         if (err) {
+           connection.release();
+           res.json({"code" : 100, "status" : "Error in connection database"});
+           return;
+         }
+
+         console.log('connected as id ' + connection.threadId);
+
+         connection.query(req,function(err,rows){
+             connection.release();
+             if(!err) {
+                 res.json(rows);
+             }
+         });
+
+         connection.on('error', function(err) {
+               res.json({"code" : 100, "status" : "Error in connection database"});
+               return;
+         });
+   });
+ }
 
 var app = express();
 
 app.use(bodyParser.text({
   limit: '50mb'
 }));
-
-function getQuery(query, res) {
-  var json = '';
-  connection.query(query, function(err, results, fields) {
-    if (err) {
-      res.json(err);
-      return;
-    }
-
-    console.log('The first query-result is: ', results[0]);
-
-    console.log('json:', json);
-    res.json(results);
-  });
-}
 
 
 // create our router
@@ -84,11 +86,8 @@ router.route('/labels')
   values = values.slice(0, -1);
   query += keys + ') VALUES(' + values + ');';
   console.log(query);
-  connection.query(query, function(err, results, fields) {
-    if (err) {
-      return;
-    }
-  });
+  var = res;
+  handle_database(query,res);
   res.header("Access-Control-Allow-Origin", "*");
   res.end();
 
@@ -97,7 +96,7 @@ router.route('/labels')
 // get all the labels (accessed at GET)
 .get(function(req, res) {
 
-  getQuery('SELECT * FROM `labels`', res);
+  handle_database('SELECT * FROM `labels`', res);
 
 });
 
@@ -114,7 +113,7 @@ router.route('/features')
 // get all the features (accessed at GET)
 .get(function(req, res) {
 
-  getQuery('SELECT * FROM `features`', res);
+  handle_database('SELECT * FROM `features`', res);
 
 });
 
@@ -144,11 +143,8 @@ router.route('/features/:feature')
     values += "'" + label + "'";
     query += keys + ') VALUES(' + values + ');';
     console.log(query);
-    connection.query(query, function(err, results, fields) {
-      if (err) {
-        return;
-      }
-    });
+    var = res;
+    handle_database(query,res);
   }
   res.header("Access-Control-Allow-Origin", "*");
   res.end();
@@ -158,7 +154,7 @@ router.route('/features/:feature')
 .get(function(req, res) {
 
   var feature = req.params.feature;
-  getQuery('SELECT * FROM `' + feature + '`', res);
+  handle_database('SELECT * FROM `' + feature + '`', res);
 
 })
 
