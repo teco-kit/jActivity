@@ -132,7 +132,7 @@ router.route('/features/:feature')
   var keys = "",
     values = "";
 
-
+  var sensor = json['sensor'];
   delete json['sensor'];
   var labels = json['labels'];
   delete json['labels'];
@@ -142,7 +142,7 @@ router.route('/features/:feature')
     values += "'" + json[data] + "',";
   }
   for (var i = 0; i < labels.length; i++) {
-    var query = 'INSERT INTO `' + json['sensor'] + '` (';
+    var query = 'INSERT INTO `' + sensor + '` (';
     query += keys + '`label`) VALUES(' + values + "'" + labels[i] + "');";
     console.log(query);
     var res;
