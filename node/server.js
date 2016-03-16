@@ -143,7 +143,7 @@ router.route('/features/:feature')
   }
   for (var i = 0; i < labels.length; i++) {
     var query = 'INSERT INTO `' + json['sensor'] + '` (';
-    query += keys + '`label`) VALUES(' + values + "'" + label[i] + "');";
+    query += keys + '`label`) VALUES(' + values + "'" + labels[i] + "');";
     console.log(query);
     var res;
     handle_database(query, res);
