@@ -129,7 +129,6 @@ router.route('/features/:feature')
   var feature = req.params.feature;
   var json = JSON.parse(req.body);
   console.log(JSON.stringify(json));
-  var query = 'INSERT INTO `' + json['sensor'] + '` (';
   var keys = "",
     values = "";
 
@@ -142,12 +141,9 @@ router.route('/features/:feature')
     keys += '`' + data + '`, ';
     values += "'" + json[data] + "',";
   }
-  keys = keys.slice(0, -2);
-  values = values.slice(0, -1);
   for (var i = 0; i < labels.length; i++) {
-    keys += '`label`';
-    values += "'" + label[i] + "'";
-    query += keys + ') VALUES(' + values + ');';
+    var query = 'INSERT INTO `' + json['sensor'] + '` (';
+    query += keys + '`label`) VALUES(' + values + "'" + label[i] + "');";
     console.log(query);
     var res;
     handle_database(query, res);
