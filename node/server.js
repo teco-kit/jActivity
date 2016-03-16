@@ -18,6 +18,7 @@ var pool = mysql.createPool({
 function handle_database(req, res) {
 
   pool.getConnection(function(err, connection) {
+    res.header("Access-Control-Allow-Origin", "*");
     if (err) {
       connection.release();
       res.json({
@@ -94,8 +95,6 @@ router.route('/labels')
   console.log(query);
   var res;
   handle_database(query, res);
-  res.header("Access-Control-Allow-Origin", "*");
-  res.end();
 
 })
 
@@ -148,8 +147,6 @@ router.route('/features/:feature')
     var res;
     handle_database(query, res);
   }
-  res.header("Access-Control-Allow-Origin", "*");
-  res.end();
 })
 
 // get the feature with that id
