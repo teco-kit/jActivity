@@ -90,7 +90,10 @@ var touchevents = function(sandbox) {
 
     },
     stop: function() {
-
+		document.removeEventListener('touchstart', touchstart);
+		document.removeEventListener('touchend', touchend);
+		document.removeEventListener('touchmove', touchmove);
+		document.removeEventListener('touchcancel', touchcancel);
     }
   }
 };
