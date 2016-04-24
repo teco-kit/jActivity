@@ -167,6 +167,57 @@ router.route('/features/:feature')
 
 });
 
+outer.route('/data')
+
+// create a feature (accessed at POST)
+.post(function(req, res) {
+
+  //TODO: Implement create features
+
+})
+
+// get all the features (accessed at GET)
+.get(function(req, res) {
+  var features = JSON.parse(req.query.features);
+  var labels = JSON.parse(req.query.labels);
+
+  pool.getConnection(function(err, connection) {
+    res.header("Access-Control-Allow-Origin", "*");
+    if (err) {
+      connection.release();
+      res.json({
+        "code": 100,
+        "status": "Error in connection database"
+      });
+      return;
+    }
+
+    console.log('connected as id ' + connection.threadId);
+    var total = 0;
+    for(var feature in features) {
+      var query = "SELECT * FROM `" + feature + "` WHERE `label` IN (" + json(labels) + ")";
+      console.log(query);
+      connection.query(query, function(err, rows) {
+        connection.release();
+        if (!err) {
+          total += rows.length;
+        }
+      });
+
+      connection.on('error', function(err) {
+        res.json({
+          "code": 100,
+          "status": "Error in connection database"
+        });
+        return;
+      });
+    }
+  });
+
+  res = total;
+
+});
+
 // REGISTER OUR ROUTES -------------------------------
 app.use('/api', router);
 
