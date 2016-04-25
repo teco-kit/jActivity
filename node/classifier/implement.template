@@ -1,0 +1,7 @@
+let %NAME%Callback = function(result) {
+  switch (result) {
+    %LABELSWITCH%
+  }
+}
+
+let %NAME%Classifier = jactivity.%NAME%Classifier(%NAME%Callback, %LABELS%, 1000)

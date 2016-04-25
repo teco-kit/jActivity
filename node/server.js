@@ -167,14 +167,7 @@ router.route('/features/:feature')
 
 });
 
-outer.route('/data')
-
-// create a feature (accessed at POST)
-.post(function(req, res) {
-
-  //TODO: Implement create features
-
-})
+router.route('/data')
 
 // get all the features (accessed at GET)
 .get(function(req, res) {
@@ -214,8 +207,47 @@ outer.route('/data')
     }
   });
 
-  res = total;
+  res.json(total);
 
+});
+
+router.route('/classifier/:uid/*')
+
+.post(function(req, res) {
+  var uid = req.params.uid;
+  var classifiers = JSON.parse(req.query.classifiers);
+  for(var classifier in classifiers) {
+    var query = 'INSERT INTO `classifiers` (`uid`, `name`, `features`,`labels`) VALUES(' + uid + ',"' + classifier.name + '","' + JSON.stringify(classifier.features) + '","' + JSON.stringify(classifier.labels) + '")';
+    console.log(query);
+    var res;
+    handle_database(query, res);
+  }
+})
+
+// get all the features (accessed at GET)
+.get(function(req, res) {
+  if(req.params[0] == "jactivity.js") {
+    var uid = req.params.uid;
+    fs.stat('./classifier/' + uid + '.js', function(err, stat) {
+      if(err == null) {
+          // SERVE JAVASCRIPT FILE
+          console.log('Classifier ' + uid + '.js exists');
+          res.sendfile(uid + '.js', {root: './classifier'});
+      } else if(err.code == 'ENOENT') {
+          // GENERATE JAVASCRIPT FILE
+          var jactivityTemplate = fs.readFileSync('./classifier/jactivity.template','utf8');
+          var classifierTemplate = fs.readFileSync('./classifier/classifier.template','utf8');
+          var replacements = {"%CLASSIFIER%":"Mike"};
+
+          jactivity = str.replace(/%\w+%/g, function(all) {
+             return replacements[all] || all;
+          });
+          fs.writeFile('log.txt', 'Some log\n');
+      } else {
+          console.log('Error occured while trying to load classifier ' + path + ': ', err.code);
+      }
+    });
+  }
 });
 
 // REGISTER OUR ROUTES -------------------------------

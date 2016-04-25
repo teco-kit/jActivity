@@ -1,0 +1,27 @@
+class %NAME%Classifier extends Classifier {
+  constructor(callback, label, interval, host, XSL) {
+    super(%FEATURES%, callback, label, interval, host, XSL)
+    %INITIALIZE%
+  }
+
+  %HELPERFUNCTIONS%
+
+  evaluateDataActivity() {
+    let averageData = {}
+
+    for (var feature in this.dataset) {
+      averageData[feature] = this.dataset[feature].reduce(function(a, b) {
+        return a + b
+      }, 0) / this.dataset[feature].length
+      this.dataset[feature] = []
+    }
+
+    if (this.decisionTree == null) return
+
+    let res = this.decisionTree.evaluate(averageData).result
+
+    if (res == null) return
+
+    this.callback(res.toLowerCase())
+  }
+}

@@ -1,0 +1,58 @@
+class jActivity {
+  constructor(host) {
+    this.host = host
+    this.XSL = new Promise((resolve, reject) => {
+      var onSuccess = function(xsl_file) {
+        resolve(xsl_file)
+      }
+      $.ajax({
+        type: "GET",
+        url: ("http://" + host + ":82/transformationstyles/pmml2js_decision_tree.xsl"),
+        success: onSuccess
+      })
+    })
+
+  }
+
+  %CLASSIFIER%
+}
+
+class Classifier {
+  constructor(sensors, callback, label, interval, host, XSL) {
+    this.sensors = sensors
+    this.callback = callback
+    this.label = label
+    this.interval = interval
+    this.host = host
+    this.XSL = XSL
+    this.decisionTree = null
+    const scope = this
+    this.createDecisionTree(scope)
+    this.dataset = {}
+    window.setInterval((...args) => this.evaluateDataActivity(...args), interval)
+  }
+
+  createDecisionTree(scope) {
+    function onSuccess(data, XSL) {
+      let model = $.parseXML(data.pop())
+      let generated_code = transform(model, XSL)
+      scope.decisionTree = eval(generated_code.textContent)
+    }
+    this.XSL.then(function(XSL) {
+      $.ajax({
+        type: "POST",
+        url: ("http://" + scope.host + ":8004/ocpu/library/jActivity2PMML/R/getPMML/json"),
+        data: 'json_data={"sensor": ' + JSON.stringify(scope.sensors) + ',"label": ' + JSON.stringify(scope.label) + ',"classifier": "rpart"}',
+        success: function(data) {
+          onSuccess(data, XSL)
+        },
+        dataType: "json"
+      })
+    })
+  }
+
+  evaluateDataActivity() {
+    throw new Error("Not implemented")
+  }
+
+}
