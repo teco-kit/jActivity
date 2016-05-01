@@ -227,6 +227,7 @@ router.route('/classifier/:uid/*')
 // get all the features (accessed at GET)
 .get(function(req, res) {
   if(req.params[0] == "jactivity.js") {
+    res.header("Access-Control-Allow-Origin", "*");
     var uid = req.params.uid;
     fs.stat('./classifier/' + uid + '.js', function(err, stat) {
       if(err == null) {
@@ -237,12 +238,48 @@ router.route('/classifier/:uid/*')
           // GENERATE JAVASCRIPT FILE
           var jactivityTemplate = fs.readFileSync('./classifier/jactivity.template','utf8');
           var classifierTemplate = fs.readFileSync('./classifier/classifier.template','utf8');
-          var replacements = {"%CLASSIFIER%":"Mike"};
+          var classifiers;
+          pool.getConnection(function(err, connection) {
+            if (err) {
+              return;
+            }
 
-          jactivity = str.replace(/%\w+%/g, function(all) {
+            console.log('connected as id ' + connection.threadId);
+
+            connection.query("SELECT * FROM `classifiers` WHERE `uid`=' " + uid + "'", function(err, rows) {
+              connection.release();
+              if (err) {
+                return;
+              }
+              classifiers = rows;
+            });
+          });
+          var classifierJS = "";
+          var classifierImpl = "";
+          for(var classifier in classifiers) {
+            var features = JSON.parse(classifier.features);
+            var labels = JSON.parse(classifier.labels);
+            var initialize = "";
+            var helper = "";
+            classifierImpl += classifier.name + "Classifier(callback, label, interval) {\nreturn new " + classifier.name + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
+            for(var feature in features) {
+              initialize += fs.readFileSync('./features/' + feature + '.initialize.js','utf8');
+              helper += fs.readFileSync('./features/' + feature + '.helper.js','utf8');
+            }
+            var replacements = {"%NAME%":classifier.name, "%FEATURES%":classifier.features, "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
+            classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
+               return replacements[all] || all;
+            });
+            classifierJS += '\n';
+          }
+
+          var replacements = {"%CLASSIFIER%":classifierImpl};
+
+          var jactivityJS = jactivityTemplate.replace(/%\w+%/g, function(all) {
              return replacements[all] || all;
           });
-          fs.writeFile('log.txt', 'Some log\n');
+          var jActivity = jactivityJS + classifierJS;
+          fs.writeFile('./classifier/' + uid + '.js', jActivity);
       } else {
           console.log('Error occured while trying to load classifier ' + path + ': ', err.code);
       }
