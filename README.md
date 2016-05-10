@@ -74,6 +74,7 @@ jActivity is designed to be modular, thereby allowing you to extend the library 
 jActivity uses features to classify data. A feature includes multiple data sources like sensors and the logic to process data.
 This data will be stored in a MySQL database and then used to create your classifier.
 Extending jActivity consists of three parts:
+
 1. Database table
 
    Write a SQL query which creates a new table with the name of the table being your feature and including at least the following columns:
@@ -96,6 +97,7 @@ Extending jActivity consists of three parts:
      PRIMARY KEY (`id`,`timestamp`)
    )
    ```
+   
 2. Collect data code
 
    To allow jActivity to collect the data for your feature you need to implement the following JavaScript template:
@@ -124,6 +126,7 @@ Extending jActivity consists of three parts:
    };
    ```
    Place your file with your feature name as the filename in `data/collect/src/scripts`
+   
 3. Classify data
 
    For the generator to include your feature in jActivity you need to implement three files located in `node/features`.
