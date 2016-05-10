@@ -4,7 +4,8 @@ var express = require("express"),
   url = require("url"),
   path = require("path"),
   fs = require("fs"),
-  pathExists = require('path-exists');
+  pathExists = require('path-exists'),
+  babel = require('babel-core');
 
 
 var pool = mysql.createPool({
@@ -226,47 +227,63 @@ router.route('/classifier/:uid/*')
 
 // get all the features (accessed at GET)
 .get(function(req, res) {
+  console.log("Requesting new jActivity");
   if(req.params[0] == "jactivity.js") {
     res.header("Access-Control-Allow-Origin", "*");
     var uid = req.params.uid;
-    fs.stat('./classifier/' + uid + '.js', function(err, stat) {
+    fs.stat('classifier/' + uid + '.js', function(err, stat) {
       if(err == null) {
           // SERVE JAVASCRIPT FILE
           console.log('Classifier ' + uid + '.js exists');
-          res.sendfile(uid + '.js', {root: './classifier'});
+          	var options = {
+				presets: ["es2015"]
+			};
+			var code = "";
+			if(req.query.es6 == 1) {
+				code = fs.readFileSync('classifier/' + uid + '.js','utf8');
+			} else {
+				code = babel.transformFileSync('classifier/' + uid + '.js', options).code;
+			}
+          res.set('Content-Type', 'text/javascript');
+          res.send(code);
       } else if(err.code == 'ENOENT') {
           // GENERATE JAVASCRIPT FILE
-          var jactivityTemplate = fs.readFileSync('./classifier/jactivity.template','utf8');
-          var classifierTemplate = fs.readFileSync('./classifier/classifier.template','utf8');
-          var classifiers;
+          var jactivityTemplate = fs.readFileSync('classifier/jactivity.template','utf8');
+          var classifierTemplate = fs.readFileSync('classifier/classifier.template','utf8');
           pool.getConnection(function(err, connection) {
             if (err) {
               return;
             }
 
             console.log('connected as id ' + connection.threadId);
+            
+            var query = "SELECT * FROM `classifiers` WHERE `uid`=' " + uid + "'";
 
-            connection.query("SELECT * FROM `classifiers` WHERE `uid`=' " + uid + "'", function(err, rows) {
+            connection.query(query, function(err, rows) {
               connection.release();
               if (err) {
+	            console.log(query + ": Did not work!");
                 return;
               }
-              classifiers = rows;
-            });
-          });
-          var classifierJS = "";
-          var classifierImpl = "";
-          for(var classifier in classifiers) {
-            var features = JSON.parse(classifier.features);
-            var labels = JSON.parse(classifier.labels);
+              var classifierJS = "";
+			  var classifierImpl = "";
+			  for(var classifier in rows) {
+			var name = rows[classifier].name;
+            var features = JSON.parse(rows[classifier].features);
+            var labels = JSON.parse(rows[classifier].labels);
             var initialize = "";
             var helper = "";
-            classifierImpl += classifier.name + "Classifier(callback, label, interval) {\nreturn new " + classifier.name + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
+            console.log("Classifier " + name + features + labels);
+            classifierImpl += name + "Classifier(callback, label, interval) {\nreturn new " + name + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
             for(var feature in features) {
-              initialize += fs.readFileSync('./features/' + feature + '.initialize.js','utf8');
-              helper += fs.readFileSync('./features/' + feature + '.helper.js','utf8');
+	          try {
+              	initialize += fs.readFileSync('features/' + features[feature] + '.initialize.js','utf8');
+			  	helper += fs.readFileSync('features/' + features[feature] + '.helper.js','utf8');
+              } catch (e) {
+			  	console.log("File not found!");
+			  }
             }
-            var replacements = {"%NAME%":classifier.name, "%FEATURES%":classifier.features, "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
+            var replacements = {"%NAME%":rows[classifier].name, "%FEATURES%":rows[classifier].features, "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
             classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
                return replacements[all] || all;
             });
@@ -279,7 +296,20 @@ router.route('/classifier/:uid/*')
              return replacements[all] || all;
           });
           var jActivity = jactivityJS + classifierJS;
-          fs.writeFile('./classifier/' + uid + '.js', jActivity);
+          fs.writeFileSync('classifier/' + uid + '.js', jActivity);
+          var options = {
+				presets: ["es2015"]
+			};
+			var code = "";
+			if(req.query.es6 == 1) {
+				code = fs.readFileSync('classifier/' + uid + '.js','utf8');
+			} else {
+				code = babel.transformFileSync('classifier/' + uid + '.js', options).code;
+			}
+          res.set('Content-Type', 'text/javascript');
+          res.send(code);
+            });
+          });
       } else {
           console.log('Error occured while trying to load classifier ' + path + ': ', err.code);
       }

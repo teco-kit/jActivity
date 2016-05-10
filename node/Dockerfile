@@ -9,6 +9,8 @@ RUN mkdir /app
 WORKDIR /app
 
 ADD package.json package.json
+ADD classifier classifier
+ADD features features
 
 RUN npm install
 
