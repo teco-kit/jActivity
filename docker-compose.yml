@@ -16,7 +16,7 @@ mysql:
         MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         MYSQL_DATABASE: "jactivity2"
     ports:
-        - "3307:3306"
+        - "3306:3306"
     volumes:
         - "./data/mysql:/var/lib/mysql"
 opencpu:
@@ -31,4 +31,4 @@ apache:
     volumes:
         - "./data:/data"
     ports:
-        - "82:80"
+        - "80:80"
