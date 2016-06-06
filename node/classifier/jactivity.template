@@ -7,7 +7,7 @@ class jActivity {
       }
       $.ajax({
         type: "GET",
-        url: ("http://" + host + ":82/transformationstyles/pmml2js_decision_tree.xsl"),
+        url: ("http://" + host + "/transformationstyles/pmml2js_decision_tree.xsl"),
         success: onSuccess
       })
     })
