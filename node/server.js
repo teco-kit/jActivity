@@ -274,7 +274,7 @@ router.route('/classifier/:uid/*')
             var initialize = "";
             var helper = "";
             console.log("Classifier " + name + features + labels);
-            classifierImpl += name + "Classifier(callback, label, interval) {\nreturn new " + name + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
+            classifierImpl += name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + name + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
             for(var feature in features) {
 	          try {
               	initialize += fs.readFileSync('features/' + features[feature] + '.initialize.js','utf8');

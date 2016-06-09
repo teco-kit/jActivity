@@ -137,7 +137,21 @@ technology based access solutions required.</p>
 	<!-- jactivity scripts -->
 	<!-- <script src="newjs/jactivity_babel.js"></script> -->
 	<script src="http://jactivity.teco.edu:3000/api/classifier/123/jactivity.js"></script>
-        <!-- <script src="newjs/test_babel.js"></script> -->
+        <script>
+		var activityCallback = function(activity) {
+			switch(activity) {
+				case "walking":
+					alert("Walking");
+				case "standing":
+					alert("Standing");
+				default:
+					console.log("Default");
+			}
+		}
+		var jactivity = new jActivity("jactivity.teco.edu");
+		var activityClassifier = jactivity.activityClassifier(activityCallback, ["walking","standing"], 1000);
+	</script>
+	<!-- <script src="newjs/test_babel.js"></script> -->
 	<script src="../pmml2js/js/transformer.js"></script>
 	<script src="../pmml2js/js/decisiontree_engine.js"></script>
 	<!--script src="../pmml2js/node_modules/underscore/underscore-min.js"></script-->
