@@ -20,7 +20,7 @@ var touchevents = function(sandbox) {
         xRatio = event.changedTouches[i].clientX / window.innerWidth;
         yRatio = event.changedTouches[i].clientY / window.innerHeight;
         var json = {
-          sensor: 'touchevents',
+          sensor: 'touchswipe',
           firstTouchX:firstTouchX,
           firstTouchY:firstTouchY,
           lastTouchX:xRatio,
