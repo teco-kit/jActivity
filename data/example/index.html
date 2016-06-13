@@ -138,18 +138,30 @@ technology based access solutions required.</p>
 	<!-- <script src="newjs/jactivity_babel.js"></script> -->
 	<script src="http://jactivity.teco.edu:3000/api/classifier/123/jactivity.js"></script>
         <script>
-		var activityCallback = function(activity) {
+	    var activityCallback = function(activity) {
 			switch(activity) {
 				case "walking":
-					alert("Walking");
+					document.body.style.fontSize = "1.2em";
 				case "standing":
-					alert("Standing");
+					document.body.style.fontSize = "1.0em";
 				default:
-					console.log("Default");
+					document.body.style.fontSize = "1.0em";
+			}
+		}    
+	    
+		var touchCallback = function(handedness) {
+			switch(handedness) {
+				case "left":
+					document.getElementById("test").innerHTML = "Left Handed";
+				case "right":
+					document.getElementById("test").innerHTML = "Right Handed";
+				default:
+					document.getElementById("test").innerHTML = "You dont have hands?";
 			}
 		}
 		var jactivity = new jActivity("jactivity.teco.edu");
 		var activityClassifier = jactivity.activityClassifier(activityCallback, ["walking","standing"], 1000);
+		var touchClassifier = jactivity.touchClassifier(touchCallback, ["left","right"], 10000);
 	</script>
 	<!-- <script src="newjs/test_babel.js"></script> -->
 	<script src="../pmml2js/js/transformer.js"></script>
