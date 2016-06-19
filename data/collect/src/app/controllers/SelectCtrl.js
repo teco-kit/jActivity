@@ -54,7 +54,7 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
         var json = JSON.stringify(data);
         if (json !== '{}') {
           var req = new XMLHttpRequest();
-          req.open('POST', "http://jactivity.teco.edu:3000/api/labels");
+          req.open('POST', "http://jactivity.teco.edu/api/labels");
           req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
           req.send(json);
         }

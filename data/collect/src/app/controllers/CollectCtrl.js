@@ -39,7 +39,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
       var json = JSON.stringify(data);
       if (json !== '{}') {
         var req = new XMLHttpRequest();
-        req.open('POST', "http://jactivity.teco.edu:3000/api/features/" + data.sensor);
+        req.open('POST', "http://jactivity.teco.edu/api/features/" + data.sensor);
         req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         req.send(json);
       }
