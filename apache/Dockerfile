@@ -4,6 +4,8 @@ FROM httpd:latest
 # File Author / Maintainer
 MAINTAINER  David Greiner <greiner@teco.edu>
 
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
+
 # Change working directory to htdocs
 WORKDIR /usr/local/apache2/htdocs/
 
