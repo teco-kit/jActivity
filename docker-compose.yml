@@ -31,3 +31,7 @@ apache:
         - "./data:/data"
     ports:
         - "80:80"
+    links:
+        - node
+        - opencpu
+

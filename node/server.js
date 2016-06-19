@@ -318,7 +318,7 @@ router.route('/classifier/:uid/*')
 });
 
 // REGISTER OUR ROUTES -------------------------------
-app.use('/api', router);
+app.use('/', router);
 
 // START THE SERVER
 // =============================================================================
