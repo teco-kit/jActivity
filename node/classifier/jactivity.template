@@ -41,7 +41,7 @@ class Classifier {
     this.XSL.then(function(XSL) {
       $.ajax({
         type: "POST",
-        url: ("http://" + scope.host + "/ocpu/library/jActivity2PMML/R/getPMML/json"),
+        url: ("http://" + scope.host + "/ocpu/ocpu/library/jActivity2PMML/R/getPMML/json"),
         data: 'json_data={"sensor": ' + JSON.stringify(scope.sensors) + ',"label": ' + JSON.stringify(scope.label) + ',"classifier": "rpart"}',
         success: function(data) {
           onSuccess(data, XSL)
