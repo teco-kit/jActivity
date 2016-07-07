@@ -1,16 +1,21 @@
 class jActivity {
   constructor(host) {
     this.host = host
-    this.XSL = new Promise((resolve, reject) => {
-      var onSuccess = function(xsl_file) {
-        resolve(xsl_file)
-      }
-      $.ajax({
-        type: "GET",
-        url: ("http://" + host + "/transformationstyles/pmml2js_decision_tree.xsl"),
-        success: onSuccess
-      })
-    })
+    if(localStorage.getItem("decisionTree")) {
+    	resolve(localStorage.getItem('decisionTree', xsl_file))
+    } else { 
+	    this.XSL = new Promise((resolve, reject) => {
+	      var onSuccess = function(xsl_file) {
+	        localStorage.setItem('decisionTree', xsl_file)
+	        resolve(xsl_file)
+	      }
+	      $.ajax({
+	        type: "GET",
+	        url: ("http://" + host + "/transformationstyles/pmml2js_decision_tree.xsl"),
+	        success: onSuccess
+	      })
+	    })
+	}
 
   }
 
