@@ -38,21 +38,22 @@ class Classifier {
   }
 
   createDecisionTree(scope) {
-	    function onSuccess(data, XSL) {
-	      let model = $.parseXML(data.pop())
-	      let generated_code = transform(model, XSL)
-	      scope.decisionTree = eval(generated_code.textContent)
-	    }
-	    this.XSL.then(function(XSL) {
-	      $.ajax({
-	        type: "POST",
-	        url: ("http://" + scope.host + "/ocpu/ocpu/library/jActivity2PMML/R/getPMML/json"),
-	        data: 'json_data={"sensor": ' + JSON.stringify(scope.sensors) + ',"label": ' + JSON.stringify(scope.label) + ',"classifier": "rpart"}',
-	        success: function(data) {
-	          onSuccess(data, XSL)
-	        },
-	        dataType: "json"
-	      })
+    function onSuccess(data, XSL) {
+      let model = $.parseXML(data.pop())
+      let generated_code = transform(model, XSL)
+      scope.decisionTree = eval(generated_code.textContent)
+    }
+    this.XSL.then(function(XSL) {
+      $.ajax({
+        type: "POST",
+        url: ("http://" + scope.host + "/ocpu/ocpu/library/jActivity2PMML/R/getPMML/json"),
+        data: 'json_data={"sensor": ' + JSON.stringify(scope.sensors) + ',"label": ' + JSON.stringify(scope.label) + ',"classifier": "rpart"}',
+        success: function(data) {
+          onSuccess(data, XSL)
+        },
+        dataType: "json"
+      })
+    })
   }
 
   evaluateDataActivity() {
