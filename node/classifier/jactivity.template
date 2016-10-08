@@ -38,7 +38,6 @@ class Classifier {
   }
 
   createDecisionTree(scope) {
-    if(localStorage.getItem("decisionTree")) {
 	    function onSuccess(data, XSL) {
 	      let model = $.parseXML(data.pop())
 	      let generated_code = transform(model, XSL)
