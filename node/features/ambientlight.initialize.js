@@ -1,1 +1,1 @@
-document.addEventListener('devicelight', (...args) => this.ambientlightListener(...args))
+window.addEventListener('devicelight', (...args) => this.ambientlightListener(...args))
