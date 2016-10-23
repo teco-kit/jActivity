@@ -138,7 +138,7 @@ technology based access solutions required.</p>
 	<!-- <script src="newjs/jactivity_babel.js"></script> -->
 	<script src="http://jactivity.teco.edu/api/classifier/1213/jactivity.js"></script>
         <script>
-		var ambientlightCallback = function(dB) {
+		var audiolevelCallback = function(dB) {
 			switch(dB) {
 				case "leise":
 					document.getElementById("test").innerHTML = "leise";
@@ -160,7 +160,7 @@ technology based access solutions required.</p>
 			}
 		}
 		var jactivity = new jActivity("jactivity.teco.edu");
-		var ambientlightClassifier = jactivity.lightClassifier(ambientlightCallback, ["leise","normal","laut","sehr laut","gefahr"], 1000);
+		var ambientlightClassifier = jactivity.audioClassifier(audiolevelCallback, ["leise","normal","laut","sehr laut","gefahr"], 1000);
 	</script>
 	<!-- <script src="newjs/test_babel.js"></script> -->
 	<script src="../pmml2js/js/transformer.js"></script>
