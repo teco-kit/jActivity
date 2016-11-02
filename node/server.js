@@ -19,7 +19,6 @@ var pool = mysql.createPool({
 function handle_database(req, res) {
 
   pool.getConnection(function(err, connection) {
-    res.header("Access-Control-Allow-Origin", "*");
     if (err) {
       connection.release();
       res.json({
@@ -256,7 +255,7 @@ router.route('/classifier/:uid/*')
             }
 
             console.log('connected as id ' + connection.threadId);
-            
+
             var query = "SELECT * FROM `classifiers` WHERE `uid`=' " + uid + "'";
 
             connection.query(query, function(err, rows) {
