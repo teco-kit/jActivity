@@ -4,7 +4,7 @@
 	file 'LICENSE', which is part of this source code package.
 */
 
-export default function($scope, $filter, $location, $templateRequest, $sce, sharedConfig) {
+export default function($scope, $filter, $location, $templateRequest, $sce, host, sharedConfig) {
   'ngInject';
 
   /* Get previously defined features and labels */
@@ -39,7 +39,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, shar
       var json = JSON.stringify(data);
       if (json !== '{}') {
         var req = new XMLHttpRequest();
-        req.open('POST', "http://jactivity.teco.edu/api/features/" + data.sensor);
+        req.open('POST', "http://" + host + "/api/features/" + data.sensor);
         req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         req.send(json);
       }

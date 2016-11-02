@@ -4,9 +4,8 @@
 	file 'LICENSE', which is part of this source code package.
 */
 
-export default function($scope, $filter, $location, ModelService, sharedConfig) {
+export default function($scope, $filter, $location, ModelService, host, sharedConfig) {
   'ngInject';
-
   /* Parse UserAgent using darcyclarke/Detect.js */
   $scope.ua = detect.parse(navigator.userAgent);
 
@@ -54,7 +53,7 @@ export default function($scope, $filter, $location, ModelService, sharedConfig) 
         var json = JSON.stringify(data);
         if (json !== '{}') {
           var req = new XMLHttpRequest();
-          req.open('POST', "http://jactivity.teco.edu/api/labels");
+          req.open('POST', "http://" + host + "/api/labels");
           req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
           req.send(json);
         }

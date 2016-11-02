@@ -11,6 +11,7 @@ import featureFilter from './filters/featureFilter';
 import labelFilter from './filters/labelFilter';
 
 angular.module('myApp', ['ui.bootstrap', 'ui.router', 'ngTagsInput', 'timer'])
+	.value('host', 'jactivity.teco.edu')
 	.service('ModelService', ModelService)
 	.controller('SelectCtrl', SelectCtrl)
 	.controller('CollectCtrl', CollectCtrl)
