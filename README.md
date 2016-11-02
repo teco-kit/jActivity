@@ -23,27 +23,44 @@ The web front-end for collecting the sensor data is located in the 'data/collect
 
 ## Running a decision tree classifier in your website
 
-First, you have to include our jactivity javascript into your website:
+To include jactivity into your website you have to define the features and id inside the 'classifier' table of the Database.
+Using the id you can include the script as follow:
 ```javascript
-<script src="js/jactivity.js"></script>
+<script src="http://{your host}/api/classifier/{id}/jactivity.js"></script>
 ```
 
-This script can be adjusted to you personal needs.
-At the end of the file, we send a post request to the opencpu server to receive the PMML classifiers.
-First, you have to provide your hostname or IP, so that the OpenCPU server is accessed correctly.
-Second, you can adjust the JSON file that is sent. In principle, you can specify:
-* which sensors to access (e.g. "sensor": ["devicemotion", "deviceorientation"])
-* which class labels to differentiate (e.g. "label": ["walking", "standing"] or "label": ["walking", "other"])
-* which classifier to be used (e.g. "classifier": "rpart")
+To use the classifier, implement callback functions for every classifier using your desired labels and a classifying interval.
+This is an example for a touch and activity classifier:
+```javascript
+var activityCallback = function(activity) {
+switch(activity) {
+  case "walking":
+    document.body.style.fontSize = "1.2em";
+    break;
+  case "standing":
+    document.body.style.fontSize = "1.0em";
+    break;
+  default:
+    document.body.style.fontSize = "1.0em";
+}
+}    
 
-Example:
-```[data: 'json_data={"sensor": ["devicemotion", "deviceorientation"],"label": ["walking", "standing"],"classifier": "rpart"}']```
-
-At the beginning, you can set the "evaluateInterval" which defines how often the script evaluates the current sensor values against the classifier.
-Currently, it is set to 2000ms.
-
-With the switch statement within the evaluateData function, you can define the actions that will be caused by specific classifier results.
-Exemplarily, the statement differentiates between walking and still and triggers different actions.
+var touchCallback = function(handedness) {
+switch(handedness) {
+  case "left":
+    document.getElementById("test").innerHTML = "Left Handed";
+    break;
+  case "right":
+    document.getElementById("test").innerHTML = "Right Handed";
+    break;
+  default:
+    document.getElementById("test").innerHTML = "You dont have hands?";
+}
+}
+var jactivity = new jActivity("jactivity.teco.edu");
+var activityClassifier = jactivity.activityClassifier(activityCallback, ["walking","standing"], 1000);
+var touchClassifier = jactivity.touchClassifier(touchCallback, ["left","right"], 10000);
+```
 
 Second, you need to include the transformer.js that allows to transform PMML models to javascript code.
 ```javascript
@@ -64,7 +81,8 @@ At the moment, only Decision Trees are supported as PMML models.
 ## Provide Training Data
 
 You can provide training data by visiting the following website with your browser:
-http://docker.teco.edu:82/collect/
+http://jactivity.teco.edu/collect/ or if you run the system on your server:
+http://{your host}/collect/
 
 There you can choose the sensor sources (devicemotion, deviceorientation, touch) and the label.
 
@@ -97,7 +115,7 @@ Extending jActivity consists of three parts:
      PRIMARY KEY (`id`,`timestamp`)
    )
    ```
-   
+
 2. Collect data code
 
    To allow jActivity to collect the data for your feature you need to implement the following JavaScript template:
@@ -126,7 +144,7 @@ Extending jActivity consists of three parts:
    };
    ```
    Place your file with your feature name as the filename in `data/collect/src/scripts`
-   
+
 3. Classify data
 
    For the generator to include your feature in jActivity you need to implement three files located in `node/features`.
