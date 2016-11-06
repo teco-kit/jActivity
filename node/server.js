@@ -35,8 +35,9 @@ function handle_database(req, res) {
       if (!err) {
         res.json(rows);
       }
+      return;
     });
-
+	/*
     connection.on('error', function(err) {
       res.json({
         "code": 100,
@@ -44,6 +45,7 @@ function handle_database(req, res) {
       });
       return;
     });
+    */
   });
 }
 
