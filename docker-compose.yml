@@ -10,15 +10,13 @@ node:
         - "./data:/data"
     ports:
         - "3000:3000"
-mysql:
-    build: ./mysql
-    environment:
-        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-        MYSQL_DATABASE: "jactivity2"
+influxdb:
+    build: ./influxdb
     ports:
-        - "3306:3306"
+        - "8083:8083"
+        - "8086:8086"
     volumes:
-        - "./data/mysql:/var/lib/mysql"
+        - "./data/influxdb:/var/lib/influxdb"
 opencpu:
     build: ./opencpu
     ports:
@@ -34,4 +32,3 @@ apache:
     links:
         - node
         - opencpu
-
