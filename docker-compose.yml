@@ -5,7 +5,7 @@ gulp:
 node:
     build: ./node
     links:
-        - mysql
+        - influxdb
     volumes:
         - "./data:/data"
     ports:
@@ -22,7 +22,7 @@ opencpu:
     ports:
         - "8004:8004"
     links:
-        - mysql
+        - influxdb
 apache:
     build: ./apache
     volumes:
