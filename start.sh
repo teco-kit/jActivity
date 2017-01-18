@@ -3,7 +3,7 @@
 #
 clear
 
-docker-compose up -d mysql
+docker-compose up -d influxdb
 docker-compose up -d gulp
 docker-compose up -d opencpu
 docker-compose up -d apache
