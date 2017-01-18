@@ -32,17 +32,17 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
   var sandbox = {
     send: function(data) {
       console.log(data);
-      data.id = uniqid;
-      data.timestamp = Date.now();
-      data.useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
-      data.labels = labels;
-      var json = JSON.stringify(data);
-      if (json !== '{}') {
-        var req = new XMLHttpRequest();
-        req.open('POST', "http://" + host + "/api/features/" + data.sensor);
-        req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-        req.send(json);
+      var useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
+      var text = data.sensor + ",label=" + labels + ",useragent=" + useragent + " ";
+      delete data.sensor;
+      for(var sensorData in data) {
+        text += sensorData + "=" + data[sensorData] + ", ";
       }
+      text = text.substring(0, text.length - 2);
+      var req = new XMLHttpRequest();
+      req.open('POST', "http://" + host + ":8086/write?db=jactivity");
+      req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+      req.send(text);
     }
   };
 
