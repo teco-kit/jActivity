@@ -33,7 +33,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
     send: function(data) {
       console.log(data);
       var useragent = ua.device.manufacturer + "_" + ua.device.name + "_" + ua.browser.family + "_" + ua.browser.major;
-      var text = data.sensor + ",label=" + labels + ",useragent=" + useragent + " ";
+      var text = data.sensor + ",label=" + labels + ",useragent=" + useragent.replace(/\s/g,'') + " ";
       delete data.sensor;
       for(var sensorData in data) {
         text += sensorData + "=" + data[sensorData] + ",";
