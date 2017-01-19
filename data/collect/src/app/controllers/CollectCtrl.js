@@ -36,9 +36,9 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
       var text = data.sensor + ",label=" + labels + ",useragent=" + useragent + " ";
       delete data.sensor;
       for(var sensorData in data) {
-        text += sensorData + "=" + data[sensorData] + ", ";
+        text += sensorData + "=" + data[sensorData] + ",";
       }
-      text = text.substring(0, text.length - 2);
+      text = text.substring(0, text.length - 1);
       var req = new XMLHttpRequest();
       //req.open('POST', "http://" + host + ":8086/write?db=jactivity");
       req.open('POST', "http://jactivity-influx.teco.edu:8086/write?db=jactivity");
