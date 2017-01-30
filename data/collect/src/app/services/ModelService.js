@@ -23,7 +23,13 @@ export default class ModelService {
   }
   getLabels() {
     var deferred = this.$q.defer();
-    this.$http.get('http://' + this.$host + '/api/labels').then(function(data) {
+    var req = {
+	  method: 'GET',
+	  url: 'http://' + this.$host + ':8086/query',
+	  params: { db: 'jactivity',
+		  		q: 'SHOW TAG VALUES WITH KEY IN (label)' }
+	};
+    this.$http.get(req).then(function(data) {
       deferred.resolve(data);
     });
 

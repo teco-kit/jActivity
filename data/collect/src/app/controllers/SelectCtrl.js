@@ -29,7 +29,9 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
 
   $scope.loadLabels = function($query) {
     return ModelService.getLabels().then(function(response) {
-      var labels = response.data;
+      //var labels = response.data;
+      const labels = [];
+	  response.data.results.series.forEach(e => e.values.forEach(v => { if (v[0] === 'label' && labels.indexOf(v[1]) === -1) labels.push(v[1]);}));
       return labels.filter(function(label) {
         return label.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
       });
@@ -49,14 +51,6 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
           label: label.label,
           name: label.name
         };
-        /* Send new label to database */
-        var json = JSON.stringify(data);
-        if (json !== '{}') {
-          var req = new XMLHttpRequest();
-          req.open('POST', "http://" + host + "/api/labels");
-          req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-          req.send(json);
-        }
       }
       /* Push each defined label on array */
       labels.push(label.label);
