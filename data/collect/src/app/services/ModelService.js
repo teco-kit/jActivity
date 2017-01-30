@@ -29,7 +29,7 @@ export default class ModelService {
 	  params: { db: 'jactivity',
 		  		q: 'SHOW TAG VALUES WITH KEY IN (label)' }
 	};
-    this.$http.get(req).then(function(data) {
+    this.$http(req).then(function(data) {
       deferred.resolve(data);
     });
 
