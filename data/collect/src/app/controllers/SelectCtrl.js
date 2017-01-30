@@ -35,7 +35,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
       //const labels = [];
 	  //response.data.results[0].series.forEach(e => e.values.forEach(v => { if (v[0] === 'label' && labels.indexOf(v[1]) === -1) labels.push(v[1]);}));
       return labels.filter(function(label) {
-        return label.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+        return label.toLowerCase().indexOf($query.toLowerCase()) != -1;
       });
     });
   };
