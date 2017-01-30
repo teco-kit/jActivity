@@ -27,13 +27,13 @@
 					<auto-complete source="loadLabels($query)" min-length="0" load-on-focus="true" load-on-empty="true" template="template"></auto-complete>
 				</tags-input>
 				<script type="text/ng-template" id="template">
-					<span>{{data.name}} <small><i>({{data.description}})</i></small></span>
+					<span>{{data}}</span>
 				</script>
-				<p>Give the dataset a label. You can select multiple ones and type your own seperated by a comma.</p>
+				<p>Give the dataset a label. You can select multiple ones and type your own separated by a comma.</p>
 			</div>
 			<div class="col-lg12">
 				<p>{{ua.device.manufacturer}} {{ua.device.name}} ({{ua.device.type}}) using {{ua.browser.family}} {{ua.browser.major}}.{{ua.browser.minor}}</p>
-				<button type="button" ng-disabled="labels.length == 0" ng-click="next()" class="btn btn-primary">Next</button>
+				<button type="button" ng-click="next()" class="btn btn-primary">Next</button>
 			</div>
 		</div>
 	</div>
