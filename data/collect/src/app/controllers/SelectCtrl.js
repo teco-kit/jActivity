@@ -42,28 +42,12 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
 
   /* Advance to collect page */
   $scope.next = function() {
-    /* Add new labels to database */
-    var labels = [];
-    $scope.labels.forEach(function(label, index) {
-      /* Label variable is undefined for new labels */
-      if (typeof label.label === 'undefined') {
-        /* Generate machine-readable string as identifier (only alphanumeric with dash) */
-        $scope.labels[index].label = label.name.replace(/([^a-z0-9]+)/gi, '-').toLowerCase();
-        var data = {
-          label: label.label,
-          name: label.name
-        };
-      }
-      /* Push each defined label on array */
-      labels.push(label.label);
-    });
-
     /* Only pass on selected features */
     var features = $filter('filter')($scope.features.data, {
       value: true
     });
 
-    sharedConfig.setConfig(features, labels);
+    sharedConfig.setConfig(features, $scope.labels);
     $location.path("/collect");
   };
 
