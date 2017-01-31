@@ -34,7 +34,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
       var labels = [].concat.apply([], series.map(e=>e.values.filter(x=>x[0]==='label').map(x=>x[1]))).filter((e,i,s)=>s.indexOf(e)===i);
       //const labels = [];
       //var labels = series.map(e=>e.values.filter(x=>x[0]==='label').map(x=>x[1])).reduce((a,b)=>a.IndexOf(b)<0?a.concat(b):a);
-      labels.map(e=> ({name:e}));
+      labels = labels.map(e=> ({name:e}));
 	  //series.forEach(e => e.values.forEach(v => { if (v[0] === 'label' && labels.indexOf(v[1]) === -1) labels.push({name: v[1]});}));
       return labels.filter(function(label) {
         return label.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
