@@ -20,4 +20,6 @@ RUN ["ln", "-s", "/data/pmml2js", "pmml2js"]
 
 RUN ["ln", "-s", "/data/stylesheets", "stylesheets"]
 
+RUN ["ln", "-s", "/data/sensors", "sensors"]
+
 RUN ["ln", "-s", "/data/transformationstyles", "transformationstyles"]
