@@ -14,8 +14,8 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
   $scope.sensors = [];
 
   ModelService.getFeatures().then(function(data) {
-    $scope.features = data.sensors;
-    $scope.sensors = $filter('feature')($scope.features.data);
+    $scope.features = data.data.sensors;
+    $scope.sensors = $filter('feature')($scope.features);
   });
 
   /* Watch for newly selected features and change sensor depency list accordingly */
