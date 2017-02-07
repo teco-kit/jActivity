@@ -20,7 +20,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
 
   /* Watch for newly selected features and change sensor depency list accordingly */
   $scope.$watch('features', function(newVal, oldVal, scope) {
-    $scope.sensors = $filter('feature')($scope.features.data);
+    $scope.sensors = $filter('feature')($scope.features.sensors);
   }, true);
 
 
