@@ -15,7 +15,7 @@ export default class ModelService {
 
   getFeatures() {
     var deferred = this.$q.defer();
-    this.$http.get('http://' + this.$host + '/api/features').then(function(data) {
+    this.$http.get('http://' + this.$host + '/sensors/sensors.json').then(function(data) {
       deferred.resolve(data);
     });
 
@@ -25,7 +25,7 @@ export default class ModelService {
     var deferred = this.$q.defer();
     var req = {
 	  method: 'GET',
-	  url: 'http://' + this.$host + ':8086/query',
+	  url: 'http://' + this.$host + '/influxdb/query',
 	  params: { db: 'jactivity',
 		  		q: 'SHOW TAG VALUES WITH KEY IN (label)' }
 	};

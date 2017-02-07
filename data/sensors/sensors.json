@@ -1,0 +1,13 @@
+{
+	"sensors": [{
+		"name": "Devicemotion",
+		"feature": "devicemotion",
+		"icon": "devicemotion.png",
+		"description": "A sensor to detect motion"
+		},{
+			"name": "Deviceorientation",
+			"feature": "deviceorientation",
+			"icon": "deviceorientation.png",
+			"description": "A sensor to detect orientation"
+		}]
+}

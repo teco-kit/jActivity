@@ -40,8 +40,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
       }
       text = text.substring(0, text.length - 1);
       var req = new XMLHttpRequest();
-      //req.open('POST', "http://" + host + ":8086/write?db=jactivity");
-      req.open('POST', "http://jactivity-influx.teco.edu:8086/write?db=jactivity");
+      req.open('POST', "http://" + host + "/influxdb/write?db=jactivity");
       req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
       req.send(text);
     }
