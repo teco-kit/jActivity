@@ -62,7 +62,7 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
     //inject.js("scripts/" + key.script, function() {
 
     var req = new XMLHttpRequest();
-    var fileLocation = '../sensors/' + key.feature + '/' + key.feature + '.js';
+    var fileLocation = '../sensors/' + key.name + '/' + key.name + '.js';
     req.open('GET', fileLocation);
     req.onreadystatechange = function() {
       eval(client.responseText);

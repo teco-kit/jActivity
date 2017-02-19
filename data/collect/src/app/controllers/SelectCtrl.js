@@ -45,7 +45,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
   /* Advance to collect page */
   $scope.next = function() {
     /* Only pass on selected features */
-    var features = $filter('filter')($scope.features.data, {
+    var features = $filter('filter')($scope.features.sensors, {
       value: true
     });
 
