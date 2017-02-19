@@ -62,14 +62,13 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
     //inject.js("scripts/" + key.script, function() {
 
     var req = new XMLHttpRequest();
-    var fileLocation = '../sensors/' + key.name + '/' + key.name + '.js';
+    var fileLocation = '../sensors/' + key.feature + '/' + key.feature + '.js';
     req.open('GET', fileLocation);
     req.onreadystatechange = function() {
       eval(client.responseText);
+      var sensor = new window[key.feature](sandbox);
+      sensors.push(sensor);
     };
-
-    var sensor = new window[key.feature](sandbox);
-    sensors.push(sensor);
     //});
   });
 
