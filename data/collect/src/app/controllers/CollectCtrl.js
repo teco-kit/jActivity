@@ -11,20 +11,6 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
   var features = sharedConfig.getFeatures();
   var labels = sharedConfig.getLabels();
 
-  /* Generate unique ID for dataset */
-  var pr = '',
-    en = false,
-    uniqid;
-
-  this.seed = function(s, w) {
-    s = parseInt(s, 10).toString(16);
-    return w < s.length ? s.slice(s.length - w) : (w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
-  };
-
-  uniqid = pr + this.seed(parseInt(new Date().getTime() / 1000, 10), 8) + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5);
-
-  if (en) uniqid += (Math.random() * 10).toFixed(8).toString();
-
   /* Parse UserAgent using darcyclarke/Detect.js */
   var ua = detect.parse(navigator.userAgent);
 
@@ -74,6 +60,14 @@ export default function($scope, $filter, $location, $templateRequest, $sce, host
 
     		};*/
     //inject.js("scripts/" + key.script, function() {
+
+    var req = new XMLHttpRequest();
+    var fileLocation = '../sensors/' + key.feature + '/' + key.feature + '.js';
+    req.open('GET', fileLocation);
+    req.onreadystatechange = function() {
+      eval(client.responseText);
+    };
+
     var sensor = new window[key.feature](sandbox);
     sensors.push(sensor);
     //});
