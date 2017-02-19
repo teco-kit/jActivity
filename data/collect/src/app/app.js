@@ -6,6 +6,7 @@
 
 import SelectCtrl from './controllers/SelectCtrl';
 import CollectCtrl from './controllers/CollectCtrl';
+import CreateCtrl from './controllers/CreateCtrl';
 import ModelService from './services/ModelService';
 import featureFilter from './filters/featureFilter';
 import labelFilter from './filters/labelFilter';
@@ -15,6 +16,7 @@ angular.module('myApp', ['ui.bootstrap', 'ui.router', 'ngTagsInput', 'timer'])
 	.service('ModelService', ModelService)
 	.controller('SelectCtrl', SelectCtrl)
 	.controller('CollectCtrl', CollectCtrl)
+	.controller('CreateCtrl', CreateCtrl)
 	.filter('feature', featureFilter)
 	.filter('label', labelFilter)
 	.service('sharedConfig', function () {
@@ -47,6 +49,11 @@ angular.module('myApp', ['ui.bootstrap', 'ui.router', 'ngTagsInput', 'timer'])
         url: '/collect',
         templateUrl: 'collect.html',
         controller: 'CollectCtrl',
+      })
+			.state('create', {
+        url: '/create',
+        templateUrl: 'create.html',
+        controller: 'CreateCtrl',
       });
 
     $urlRouterProvider.otherwise('/select');
