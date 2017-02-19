@@ -269,7 +269,7 @@ router.route('/classifier/:uid/*')
               var classifierJS = "";
 			  var classifierImpl = "";
 			  for(var classifier in rows) {
-			var name = rows[classifier].name;
+            var name = rows[classifier].name;
             var features = JSON.parse(rows[classifier].features);
             var labels = JSON.parse(rows[classifier].labels);
             var initialize = "";
@@ -278,8 +278,8 @@ router.route('/classifier/:uid/*')
             classifierImpl += name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + name + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
             for(var feature in features) {
 	          try {
-              	initialize += fs.readFileSync('features/' + features[feature] + '.initialize.js','utf8');
-			  	helper += fs.readFileSync('features/' + features[feature] + '.helper.js','utf8');
+              initialize += fs.readFileSync('features/' + features[feature] + '.initialize.js','utf8');
+              helper += fs.readFileSync('features/' + features[feature] + '.helper.js','utf8');
               } catch (e) {
 			  	console.log("File not found!");
 			  }

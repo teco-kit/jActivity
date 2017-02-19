@@ -42,4 +42,146 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
     });
   };
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  function updateJavaScript() {
+    var jActivityTemplate = `class jActivity {
+      constructor(host) {
+        this.host = host
+        //if(localStorage.getItem("decisionTree")) {
+        //	resolve(localStorage.getItem('decisionTree', xsl_file))
+        //} else {
+    	    this.XSL = new Promise((resolve, reject) => {
+    	      var onSuccess = function(xsl_file) {
+    	        localStorage.setItem('decisionTree', xsl_file)
+    	        resolve(xsl_file)
+    	      }
+    	      $.ajax({
+    	        type: "GET",
+    	        url: ("http://" + host + "/transformationstyles/pmml2js_decision_tree.xsl"),
+    	        success: onSuccess
+    	      })
+    	    })
+    	//}
+
+      }
+
+      %CLASSIFIER%
+    }
+
+    class Classifier {
+      constructor(sensors, callback, label, interval, host, XSL) {
+        this.sensors = sensors
+        this.callback = callback
+        this.label = label
+        this.interval = interval
+        this.host = host
+        this.XSL = XSL
+        this.decisionTree = null
+        const scope = this
+        this.createDecisionTree(scope)
+        this.dataset = {}
+        window.setInterval((...args) => this.evaluateDataActivity(...args), interval)
+      }
+
+      createDecisionTree(scope) {
+        function onSuccess(data, XSL) {
+          let model = $.parseXML(data.pop())
+          let generated_code = transform(model, XSL)
+          scope.decisionTree = eval(generated_code.textContent)
+        }
+        this.XSL.then(function(XSL) {
+          $.ajax({
+            type: "POST",
+            url: ("http://" + scope.host + "/ocpu/ocpu/library/jActivity2PMML/R/getPMML/json"),
+            data: 'json_data={"sensor": ' + JSON.stringify(scope.sensors) + ',"label": ' + JSON.stringify(scope.label) + ',"classifier": "rpart"}',
+            success: function(data) {
+              onSuccess(data, XSL)
+            },
+            dataType: "json"
+          })
+        })
+      }
+
+      evaluateDataActivity() {
+        throw new Error("Not implemented")
+      }
+
+    }
+`;
+    var classifierTemplate = `class %NAME%Classifier extends Classifier {
+      constructor(callback, label, interval, host, XSL) {
+        super(%FEATURES%, callback, label, interval, host, XSL)
+        %INITIALIZE%
+      }
+
+      %HELPERFUNCTIONS%
+
+      evaluateDataActivity() {
+        let averageData = {}
+
+        for (var feature in this.dataset) {
+          averageData[feature] = this.dataset[feature].reduce(function(a, b) {
+            return a + b
+          }, 0) / this.dataset[feature].length
+          this.dataset[feature] = []
+        }
+
+        if (this.decisionTree == null) return
+
+        let res = this.decisionTree.evaluate(averageData).result
+
+        if (res == null) return
+
+        this.callback(res.toLowerCase())
+      }
+    }`;
+    var implementTemplate = `let %NAME%Callback = function(result) {
+      switch (result) {
+        %LABELSWITCH%
+      }
+    }
+
+    let %NAME%Classifier = jactivity.%NAME%Classifier(%NAME%Callback, %LABELS%, 1000)
+    `;
+
+    var features = $filter('filter')($scope.features.sensors, {
+      value: true
+    });
+    var labels = $scope.labels;
+    var initialize = "";
+    var helper = "";
+    var classifierJS = "";
+    var options = {presets: ["es2015"]};
+
+    classifierImpl += $scope.name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + capitalizeFirstLetter($scope.name) + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
+
+    features.forEach(function(key) {
+      $http.get('../sensors/' + key.feature + '/' + key.feature + '.initialize.js')
+        .then(function(response) {
+           initialize += response.data;
+           return $http.get('../sensors/' + key.feature + '/' + key.feature + '.helper.js');
+        })
+        .then(function(response) {
+           help += response.data;
+        });
+    });
+    var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":features, "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
+    classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
+       return replacementsClassifier[all] || all;
+    });
+    classifierJS += '\n';
+
+    var replacementsjActivity = {"%CLASSIFIER%":classifierImpl};
+
+    var jactivityJS = jActivityTemplate.replace(/%\w+%/g, function(all) {
+       return replacementsjActivity[all] || all;
+    });
+    var jActivity = jactivityJS + classifierJS;
+
+    var code = babel.transform(jActivity, options).code;
+  }
+
 }

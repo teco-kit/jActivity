@@ -5,7 +5,8 @@
 -->
 
 <div class="container">
-	<h1>Collect Data</h1>
+	<h1>Build your classifier</h1>
+  <input type="text" ng-model="name">
 	<div class="row">
 		<div class="col-lg12">
 			<label ng-repeat="feature in features.sensors" class="btn btn-checkbox" ng-model="feature.value" btn-checkbox><span class="icon-{{feature.icon}}"></span>
