@@ -46,7 +46,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  function updateJavaScript() {
+  $scope.updateJavaScript = function() {
     console.log("updateJavaScript");
     var jActivityTemplate = `class jActivity {
       constructor(host) {
@@ -185,6 +185,6 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
     var code = babel.transform(jActivity, options).code;
 
     console.log(code);
-  }
+  };
 
 }
