@@ -4,7 +4,7 @@
 	file 'LICENSE', which is part of this source code package.
 */
 
-export default function($scope, $filter, $location, ModelService, host, sharedConfig) {
+export default function($scope, $filter, $location, $http, ModelService, host, sharedConfig) {
   'ngInject';
   /* Parse UserAgent using darcyclarke/Detect.js */
   $scope.ua = detect.parse(navigator.userAgent);
@@ -48,6 +48,9 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
 
   $scope.updateJavaScript = function() {
     console.log("updateJavaScript");
+    if(empty($scope.name.toLowerCase())) {
+      return;
+    }
     var jActivityTemplate = `class jActivity {
       constructor(host) {
         this.host = host
