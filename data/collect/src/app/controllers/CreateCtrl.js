@@ -48,7 +48,7 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
 
   $scope.updateJavaScript = function() {
     console.log("updateJavaScript");
-    if(empty($scope.name.toLowerCase())) {
+    if($scope.name.toLowerCase()) {
       return;
     }
     var jActivityTemplate = `class jActivity {
