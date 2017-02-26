@@ -183,6 +183,8 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
     var jActivity = jactivityJS + classifierJS;
 
     var code = babel.transform(jActivity, options).code;
+
+    console.log(code);
   }
 
 }

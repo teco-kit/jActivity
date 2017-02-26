@@ -6,10 +6,10 @@
 
 <div class="container">
 	<h1>Build your classifier</h1>
-  <input type="text" ng-model="name">
+  <input type="text" ng-model="name" ng-change="updateJavaScript()">
 	<div class="row">
 		<div class="col-lg12">
-			<label ng-repeat="feature in features.sensors" class="btn btn-checkbox" ng-model="feature.value" btn-checkbox><span class="icon-{{feature.icon}}"></span>
+			<label ng-repeat="feature in features.sensors" ng-change="updateJavaScript()" class="btn btn-checkbox" ng-model="feature.value" btn-checkbox><span class="icon-{{feature.icon}}"></span>
 				<br>{{feature.name}}</label>
 		</div>
 		<div class="col-lg12">
@@ -24,7 +24,7 @@
 			</div>
 			<h2>Feature Label</h2>
 			<div class="col-lg8">
-				<tags-input ng-model="labels" min-length="2" display-property="name" placeholder="Add a label" replace-spaces-with-dashes="false" addFromAutocompleteOnly="true">
+				<tags-input ng-model="labels" ng-change="updateJavaScript()" min-length="2" display-property="name" placeholder="Add a label" replace-spaces-with-dashes="false" addFromAutocompleteOnly="true">
 					<auto-complete source="loadLabels($query)" min-length="0" load-on-focus="true" load-on-empty="true" template="template"></auto-complete>
 				</tags-input>
 				<script type="text/ng-template" id="template">
