@@ -47,6 +47,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
   }
 
   function updateJavaScript() {
+    console.log("updateJavaScript");
     var jActivityTemplate = `class jActivity {
       constructor(host) {
         this.host = host
