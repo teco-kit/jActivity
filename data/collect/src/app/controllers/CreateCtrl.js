@@ -157,7 +157,7 @@ export default function($scope, $filter, $location, ModelService, host, sharedCo
     var classifierJS = "";
     var options = {presets: ["es2015"]};
 
-    classifierImpl += $scope.name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + capitalizeFirstLetter($scope.name) + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
+    var classifierImpl = $scope.name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + capitalizeFirstLetter($scope.name) + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
 
     features.forEach(function(key) {
       $http.get('../sensors/' + key.feature + '/' + key.feature + '.initialize.js')
