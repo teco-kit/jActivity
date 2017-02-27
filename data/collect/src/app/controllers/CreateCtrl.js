@@ -48,7 +48,11 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
 
   $scope.updateJavaScript = function() {
     console.log("updateJavaScript");
-    if(!$scope.name.toLowerCase()) {
+    var features = $filter('filter')($scope.features.sensors, {
+      value: true
+    });
+    var labels = $scope.labels;
+    if(!$scope.name && !features && !labels) {
       return;
     }
     var jActivityTemplate = `class jActivity {
@@ -151,14 +155,14 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
     let %NAME%Classifier = jactivity.%NAME%Classifier(%NAME%Callback, %LABELS%, 1000)
     `;
 
-    var features = $filter('filter')($scope.features.sensors, {
-      value: true
-    });
-    var labels = $scope.labels;
     var initialize = "";
     var helper = "";
     var classifierJS = "";
     var options = {presets: ["es2015"]};
+
+    var featureArray = feature.map(function(array) {
+      return array.feature;
+    });
 
     var classifierImpl = $scope.name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + capitalizeFirstLetter($scope.name) + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
 
