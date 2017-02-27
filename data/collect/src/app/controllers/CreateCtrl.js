@@ -160,7 +160,7 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
     var classifierJS = "";
     var options = {presets: ["es2015"]};
 
-    var featureArray = feature.map(function(array) {
+    var featureArray = features.map(function(array) {
       return array.feature;
     });
 
