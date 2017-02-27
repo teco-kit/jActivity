@@ -169,7 +169,7 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
            return $http.get('../sensors/' + key.feature + '/' + key.feature + '.helper.js');
         })
         .then(function(response) {
-           help += response.data;
+           helper += response.data;
         });
     });
     var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":features, "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
