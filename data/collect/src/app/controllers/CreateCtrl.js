@@ -185,7 +185,7 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
     });
     var jActivity = jactivityJS + classifierJS;
 
-    var code = babel.transform(jActivity, options).code;
+    var code = Babel.transform(jActivity, options).code;
 
     console.log(code);
   };
