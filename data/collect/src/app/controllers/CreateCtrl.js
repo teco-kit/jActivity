@@ -169,15 +169,14 @@ export default function($scope, $filter, $location, $http, $q, ModelService, hos
     var promises = [];
 
     features.forEach(function(key) {
-      var promise = $http.get('../sensors/' + key.feature + '/' + key.feature + '.initialize.js')
+      promises.push($http.get('../sensors/' + key.feature + '/' + key.feature + '.initialize.js')
         .then(function(response) {
            initialize += response.data;
            return $http.get('../sensors/' + key.feature + '/' + key.feature + '.helper.js');
         })
         .then(function(response) {
            helper += response.data;
-        });
-      promises.push(promise);
+        }));
     });
 
     $q.all(promises).then(() => {
