@@ -4,7 +4,7 @@
 	file 'LICENSE', which is part of this source code package.
 */
 
-export default function($scope, $filter, $location, $http, ModelService, host, sharedConfig) {
+export default function($scope, $filter, $location, $http, $q, ModelService, host, sharedConfig) {
   'ngInject';
   /* Parse UserAgent using darcyclarke/Detect.js */
   $scope.ua = detect.parse(navigator.userAgent);
