@@ -52,7 +52,7 @@ export default function($scope, $filter, $location, $http, $q, ModelService, hos
       value: true
     });
     var labels = $scope.labels;
-    if(!$scope.name && !features && !labels) {
+    if(!$scope.name && features.length() != 0 && labels.length() != 0) {
       return;
     }
     var jActivityTemplate = `class jActivity {
