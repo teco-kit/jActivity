@@ -13,6 +13,11 @@ export default function($scope, $filter, $location, $http, $q, ModelService, hos
   $scope.features = [];
   $scope.sensors = [];
 
+  $scope.tabs = [
+    { title:'JavaScript', content:'Give a name, select features and labels' },
+    { title:'ES 2016', content:'Give a name, select features and labels' }
+  ];
+
   ModelService.getFeatures().then(function(data) {
     $scope.features = data.data;
     $scope.sensors = $filter('feature')($scope.features.sensors);
@@ -198,6 +203,9 @@ export default function($scope, $filter, $location, $http, $q, ModelService, hos
       console.log(jActivity);
 
       var code = Babel.transform(jActivity, options).code;
+
+      $scope.tabs[0].content = code;
+      $scope.tabs[1].content = jActivity;
 
       console.log(code);
     });

@@ -43,4 +43,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-lg12">
+			<uib-tabset active="active">
+		    <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}">
+		      {{tab.content}}
+		    </uib-tab>
+	  	</uib-tabset>
+		</div>
+	</div>
 </div>
