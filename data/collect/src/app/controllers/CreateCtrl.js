@@ -174,27 +174,27 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
         })
         .then(function(response) {
            helper += response.data;
+           var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":JSON.stringify(featureArray), "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
+           console.log("Initialize: "+ initialize + "\n Helperfunctions: " + helper);
+           classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
+              return replacementsClassifier[all] || all;
+           });
+           classifierJS += '\n';
+
+           var replacementsjActivity = {"%CLASSIFIER%":classifierImpl};
+
+           var jactivityJS = jActivityTemplate.replace(/%\w+%/g, function(all) {
+              return replacementsjActivity[all] || all;
+           });
+           var jActivity = jactivityJS + classifierJS;
+
+           console.log(jActivity);
+
+           var code = Babel.transform(jActivity, options).code;
+
+           console.log(code);
         });
     });
-    var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":JSON.stringify(featureArray), "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
-    console.log("Initialize: "+ initialize + "\n Helperfunctions: " + helper);
-    classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
-       return replacementsClassifier[all] || all;
-    });
-    classifierJS += '\n';
-
-    var replacementsjActivity = {"%CLASSIFIER%":classifierImpl};
-
-    var jactivityJS = jActivityTemplate.replace(/%\w+%/g, function(all) {
-       return replacementsjActivity[all] || all;
-    });
-    var jActivity = jactivityJS + classifierJS;
-
-    console.log(jActivity);
-
-    var code = Babel.transform(jActivity, options).code;
-
-    console.log(code);
   };
 
 }

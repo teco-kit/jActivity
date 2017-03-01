@@ -6,7 +6,11 @@
 
 <div class="container">
 	<h1>Build your classifier</h1>
-  <input type="text" ng-model="name" ng-change="updateJavaScript()">
+	<div class="row">
+		<div class="col-lg12">
+  		<input type="text" ng-model="name" ng-change="updateJavaScript()">
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-lg12">
 			<label ng-repeat="feature in features.sensors" ng-change="updateJavaScript()" class="btn btn-checkbox" ng-model="feature.value" btn-checkbox><span class="icon-{{feature.icon}}"></span>
