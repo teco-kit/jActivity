@@ -177,6 +177,7 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
         });
     });
     var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":JSON.stringify(featureArray), "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
+    console.log("Initialize: "+ initialize + "\n Helperfunctions: " + helper);
     classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
        return replacementsClassifier[all] || all;
     });
