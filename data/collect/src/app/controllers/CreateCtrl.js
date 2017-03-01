@@ -166,34 +166,41 @@ export default function($scope, $filter, $location, $http, ModelService, host, s
 
     var classifierImpl = $scope.name.toLowerCase() + "Classifier(callback, label, interval) {\nreturn new " + capitalizeFirstLetter($scope.name) + "Classifier(callback, label, interval, this.host, this.XSL)\n}\n";
 
+    var promises = [];
+
     features.forEach(function(key) {
-      $http.get('../sensors/' + key.feature + '/' + key.feature + '.initialize.js')
+      var promise = $http.get('../sensors/' + key.feature + '/' + key.feature + '.initialize.js')
         .then(function(response) {
            initialize += response.data;
            return $http.get('../sensors/' + key.feature + '/' + key.feature + '.helper.js');
         })
         .then(function(response) {
            helper += response.data;
-           var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":JSON.stringify(featureArray), "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
-           console.log("Initialize: "+ initialize + "\n Helperfunctions: " + helper);
-           classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
-              return replacementsClassifier[all] || all;
-           });
-           classifierJS += '\n';
-
-           var replacementsjActivity = {"%CLASSIFIER%":classifierImpl};
-
-           var jactivityJS = jActivityTemplate.replace(/%\w+%/g, function(all) {
-              return replacementsjActivity[all] || all;
-           });
-           var jActivity = jactivityJS + classifierJS;
-
-           console.log(jActivity);
-
-           var code = Babel.transform(jActivity, options).code;
-
-           console.log(code);
         });
+      promises.push(promise);
+    });
+
+    $q.all(promises).then(() => {
+
+      var replacementsClassifier = {"%NAME%":capitalizeFirstLetter($scope.name), "%FEATURES%":JSON.stringify(featureArray), "%INITIALIZE%": initialize, "%HELPERFUNCTIONS%": helper};
+      console.log("Initialize: "+ initialize + "\n Helperfunctions: " + helper);
+      classifierJS += classifierTemplate.replace(/%\w+%/g, function(all) {
+         return replacementsClassifier[all] || all;
+      });
+      classifierJS += '\n';
+
+      var replacementsjActivity = {"%CLASSIFIER%":classifierImpl};
+
+      var jactivityJS = jActivityTemplate.replace(/%\w+%/g, function(all) {
+         return replacementsjActivity[all] || all;
+      });
+      var jActivity = jactivityJS + classifierJS;
+
+      console.log(jActivity);
+
+      var code = Babel.transform(jActivity, options).code;
+
+      console.log(code);
     });
   };
 

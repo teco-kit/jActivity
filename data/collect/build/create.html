@@ -8,11 +8,13 @@
 	<h1>Build your classifier</h1>
 	<div class="row">
 		<div class="col-lg12">
+			<h2>Classifier Name</h2>
   		<input type="text" ng-model="name" ng-change="updateJavaScript()">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg12">
+			<h2>Features</h2>
 			<label ng-repeat="feature in features.sensors" ng-change="updateJavaScript()" class="btn btn-checkbox" ng-model="feature.value" btn-checkbox><span class="icon-{{feature.icon}}"></span>
 				<br>{{feature.name}}</label>
 		</div>
