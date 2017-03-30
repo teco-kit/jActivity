@@ -1,0 +1,185 @@
+<HTML>
+    <HEAD>
+        <TITLE>Chat</TITLE>
+        <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="elizadata.js"></SCRIPT>
+        <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="elizabot.js"></SCRIPT>
+
+        <meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+
+        <style>
+        html {
+            font-family: 'Roboto', sans-serif;
+        }
+        .cwidth {
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        .button {
+            background-color: #c7c7c7;
+            margin-right: 20px;
+            padding: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Roboto Mono', monospace;
+        }
+        a:link, a:visited {
+            text-decoration: none;
+            color: black;
+        }
+        </style>
+
+        <SCRIPT TYPE="text/javascript">
+
+        var eliza = new ElizaBot();
+        var elizaLines = new Array();
+
+        var displayCols = 60;
+        var displayRows = 20;
+
+        function elizaReset() {
+            eliza.reset();
+            elizaLines.length = 0;
+            elizaStep();
+        }
+
+        function elizaStep() {
+            var f = document.forms.e_form;
+            var userinput = f.e_input.value;
+            if (eliza.quit) {
+                f.e_input.value = '';
+                if (confirm("This session is over.\nStart over?")) elizaReset();
+                f.e_input.focus();
+                return;
+            }
+            else if (userinput != '') {
+                var usr = 'YOU:   ' + userinput;
+                var rpl ='ELIZA: ' + eliza.transform(userinput);
+                elizaLines.push(usr);
+                elizaLines.push(rpl);
+                // display nicely
+                // (fit to textarea with last line free - reserved for extra line caused by word wrap)
+                var temp  = new Array();
+                var l = 0;
+                for (var i=elizaLines.length-1; i>=0; i--) {
+                    l += 1 + Math.floor(elizaLines[i].length/displayCols);
+                    if (l >= displayRows) break
+                    else temp.push(elizaLines[i]);
+                }
+                elizaLines = temp.reverse();
+                f.e_display.value = elizaLines.join('\n');
+            }
+            else if (elizaLines.length == 0) {
+                // no input and no saved lines -> output initial
+                var initial = 'ELIZA: ' + eliza.getInitial();
+                elizaLines.push(initial);
+                f.e_display.value = initial + '\n';
+            }
+            f.e_input.value = '';
+            f.e_input.focus();
+        }
+
+        </SCRIPT>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+            offset = 8;
+
+            curSize = 16;
+            document.getElementById("cfontsizestanding").innerHTML = curSize;
+            document.getElementById("cfontsizewalking").innerHTML = curSize + offset;
+
+            $('#incfont').click(function(){
+                curSize = curSize + 2;
+                update_font_size()
+            });
+
+            $('#decfont').click(function(){
+                if (curSize > 0) {
+                    curSize = curSize - 2;
+                    update_font_size()
+                }
+
+            });
+
+            var update_font_size = function() {
+                document.getElementById("cfontsizestanding").innerHTML = curSize;
+                document.getElementById("cfontsizewalking").innerHTML = curSize + offset;
+                if (current_activity == "walking") {
+                    document.getElementById("jactivityselect").style.fontSize = curSize + offset;
+                } else {
+                    document.getElementById("jactivityselect").style.fontSize = curSize;
+                }
+            }
+
+        });
+        </script>
+    </HEAD>
+
+    <body onload="window.setTimeout('elizaReset()',100)">
+
+        <div id="bar" style="height:10%"><a href="#" id="incfont" class="button">A&#43;</a><a href="#" id="decfont" class="button">A&#45;</a>Standing: <span id="cfontsizestanding"></span>px Walking: <span id="cfontsizewalking"></span>px</div>
+
+        <FORM NAME="e_form" onsubmit="elizaStep();return false" class="cwidth">
+
+            <TEXTAREA NAME="e_display" class="cwidth" style="height:70%;" id="jactivityselect" /></TEXTAREA>
+
+            <INPUT TYPE="text" NAME="e_input" class="cwidth" style="height:10%; font-size: 16px;" autofocus placeholder="Please enter message..." />
+
+            <INPUT TYPE="submit" VALUE="&nbsp;SEND&nbsp;" class="cwidth" style="font-size: 16px; height:10%;" />
+
+        </FORM>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+
+        <script src="js/offcanvas.js"></script>
+        <!-- jactivity scripts -->
+        <!-- <script src="newjs/jactivity_babel.js"></script> -->
+        <!--
+        var lockOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
+
+        lockOrientation("landscape-primary");
+    -->
+    <script src="http://104.155.9.90/api/classifier/12345/jactivity.js"></script>
+
+
+    <script>
+
+        current_activity = "standing"; // initialize current state of activity
+
+        var activityCallback = function(activity) {
+            switch(activity) {
+                case "walking":
+                document.getElementById("jactivityselect").style.fontSize = curSize + offset;
+                break;
+                case "standing":
+                document.getElementById("jactivityselect").style.fontSize = curSize;
+                break;
+                default:
+                document.getElementById("jactivityselect").style.fontSize = curSize;
+            }
+            current_activity = activity
+        }
+
+        var jactivity = new jActivity("104.155.9.90");
+        var activityClassifier = jactivity.motiononlyClassifier(activityCallback, ["walking","standing"], 2000);
+
+
+    </script>
+    <!-- <script src="newjs/test_babel.js"></script> -->
+    <script src="../pmml2js/js/transformer.js"></script>
+    <script src="../pmml2js/js/decisiontree_engine.js"></script>
+    <!--script src="../pmml2js/node_modules/underscore/underscore-min.js"></script-->
+
+</body>
+</HTML>

@@ -1,0 +1,166 @@
+<HTML>
+    <HEAD>
+        <TITLE>Chat</TITLE>
+
+        <meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+
+        <style>
+        html {
+            font-family: 'Roboto', sans-serif;
+        }
+        .cwidth {
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        .button {
+            background-color: #c7c7c7;
+            margin-right: 20px;
+            padding: 10px;
+            font-weight: bold;
+            font-family: 'Roboto Mono', monospace;
+        }
+        a:link, a:visited {
+            text-decoration: none;
+            color: black;
+        }
+
+        img {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        </style>
+
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+            offset = 8;
+
+            curSize = 16;
+            document.getElementById("cfontsizestanding").innerHTML = curSize;
+
+            $('#incfont').click(function(){
+                curSize = curSize + 2;
+                update_font_size()
+            });
+
+            $('#decfont').click(function(){
+                if (curSize > 0) {
+                    curSize = curSize - 2;
+                    update_font_size()
+                }
+
+            });
+
+            var update_font_size = function() {
+                document.getElementById("cfontsizestanding").innerHTML = curSize;
+                document.getElementById("jactivityselect").style.fontSize = curSize;
+
+            }
+
+        });
+        </script>
+    </HEAD>
+
+    <body onload="window.setTimeout('elizaReset()',100)">
+
+        <div id="bar" style="height:10%"><a href="#" id="incfont" class="button">A&#43;</a><a href="#" id="decfont" class="button">A&#45;</a>Current font size: <span id="cfontsizestanding"></span>px</div>
+
+        <div style="height: 90%" id="jactivityselect">
+            The Karlsruhe Institute of Technology (KIT) (German: Karlsruher Institut f&uuml;r Technologie) is a public research university and one of the largest research and education institutions in Germany.
+
+            KIT was created in 2009 when the University of Karlsruhe (Universit&auml;t Karlsruhe), founded in 1825 as public research university and also known as &quot;Fridericiana&quot;, merged with the Karlsruhe Research Center Forschungszentrum Karlsruhe, which was originally established as a national nuclear research center (Kernforschungszentrum Karlsruhe, or KfK) in 1956.
+
+            KIT is one of the leading universities in the Engineering and Natural Sciences in Europe, ranking sixth overall in citation impact. KIT is a member of the TU9 German Institutes of Technology e.V. As part of the German Universities Excellence Initiative KIT was accredited with the excellence status in 2006. In the 2011 performance ranking of scientific papers, Karlsruhe ranked first in Germany and among the top ten universities in Europe in engineering and natural sciences.
+
+            In the 2015 QS World University Rankings the Karlsruhe Institute of Technology achieved 93rd place in the global ranking across all disciplines and 62nd and 34th place in engineering and natural sciences, respectively. In the 2013 Taiwan ranking, KIT (world rank 61) remained the best German University in the engineering and natural sciences, ranked in the engineering sciences ahead of the RWTH Aachen (world rank 89), the Technical University of Munich (world rank 94) and the Technical University of Dresden (world rank 108). For the natural sciences KIT (world rank 51) led the domestic comparison against the LMU Munich (world rank 62), the University of Heidelberg (world rank 72) and the Technical University of Munich (world rank 81). Ranked 26th place in Computer Science in the Times Higher Education Ranking 2016, KIT is one of the leading universities in Computer Science in Europe as well as the world.
+
+            As of 2016, 6 Nobel laureates are affiliated with KIT. The Karlsruhe Institute of Technology is well known for many inventors and entrepreneurs such as Karl Friedrich Benz or the founders of SAP.
+
+            <br />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Drymona_water_fall_and_pool_north_Euboea_Greece.jpg/587px-Drymona_water_fall_and_pool_north_Euboea_Greece.jpg" alt="Picture" style="max-width: 100%;">
+            <br />
+
+                        The University of Karlsruhe was founded as Polytechnische Schule, a polytechnical school, on 7 October 1825. It was modelled upon the &Eacute;cole polytechnique in Paris. In 1865, Grand Duke Friedrich I of Baden raised the school to the status of a Hochschule, an institution of higher education. Since 1902 the university has also been known as the Fridericiana in his honour. In 1885, it was declared a Technische Hochschule, or institute of technology, and in 1967 it became an Universit&auml;t, a full university, which gave it the right to award regular doctorate degrees. It had hitherto only been allowed to award doctorates in engineering, identified as Dr. Ing, a right bestowed on all technical institutes in 1899.
+
+
+
+            The University of Karlsruhe has been one of the leading German institutions in computer science. A central computer laboratory was founded in 1966. The department of informatics was established three years later, along with the first regular course in informatics. On 2 August 1984, the university received Germany's first email. The Institut f&uuml;r Meteorologie und Klimaforschung (Institute for Meteorology and Climate Research) was founded at the university in 1985.
+
+
+
+            The university also cooperated extensively with the Forschungszentrum Karlsruhe (Karlsruhe Research Centre), and this relationship was formalised on 6 April 2006 when Professor Horst Hippler and Dr. Dieter Ertmann from the University of Karlsruhe, and Professor Manfred Popp and Assistant Jur. Sigurd Lettow from Forschungszentrum Karlsruhe signed a contract for the foundation of the Karlsruhe Institute of Technology (KIT). The name was chosen in emulation of the Massachusetts Institute of Technology (MIT), the leading technical university in the United States. In February 2008, the merger of the university and the research centre to form KIT was agreed by the state of Baden-W&uuml;rttemberg and Germany's federal government. The necessary state law was passed on 8 July 2009. KIT was formally established on 1 October 2009.
+
+
+
+            The main reason for establishing KIT was to strengthen Karlsruhe's position in the German Universities Excellence Initiative, which offered elite universities grants of up to 50 million euros per annum. This aim was not achieved: while the University of Karlsruhe was chosen for the initiative in 2006/2007, KIT failed to secure a place in 2012. It did, however, attract funds from other sources. In 2008, Hans-Werner Hector, co-founder of SAP, raised 200 million euros to support researchers at the institute. (Hector is the only founder of SAP who did not graduate from the University of Karlsruhe; he was given an honorary doctorate for his support of intellectually gifted children in 2003.)
+
+
+
+
+
+            <br />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Marmolada%2C_Italy.jpg/540px-Marmolada%2C_Italy.jpg" alt="Picture" style="max-width: 100%;">
+            <br />
+
+            Since the winter semester of 2008/2009, KIT has completed the change from the Diplom system to a bachelor and master system. Students already enrolled for a diplom degree when the transition began were allowed to finish their studies, but new students are only allowed to apply for a bachelor or master's degree.
+
+Admission policies differ between departments. While students are chosen by the quality of their school degree and their extracurricular activities for courses such as industrial engineering and management (27% of admissions in 2008), other departments do not preselect for their courses, including physics, informatics, and meteorology. All courses require a minimum number of passed exams, called Orientierungspr&uuml;fung or orientation assessment, in the first three semesters before students are allowed to complete their course. A substantial drop-out rate occurs for some engineering courses due to the immense study requirement to pass the prerequisites.
+
+In the first semesters of a course, education tends to be theoretically oriented at KIT, with a high concentration of mathematics for engineering and natural science courses. It is possible to choose between practical and theoretical topics in later semesters.
+
+            <br />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Backlit_Margarita_Island_Sunset_in_Las_Guevaras%2C_Venezuela_CaptureNX2.jpg/535px-Backlit_Margarita_Island_Sunset_in_Las_Guevaras%2C_Venezuela_CaptureNX2.jpg" alt="Picture" style="max-width: 100%;">
+            <br />
+
+            The university allows a broad range of education with the possibility of cross studies and work. The studium generale (English: general studies) was established in 1949, allowing students to attend lectures not directly pertaining their study field.
+
+The Zentrum f&uuml;r Angewandte Kulturwissenschaft und Studium Generale (Centre for Applied Culture and General Studies) was founded in 1989 to support the students as a central institution for their interdisciplinary study. Nowadays, it offers specialised qualifications in the fields of &quot;Leadership and Entrepreneurship&quot;, &quot;Media - Culture - Communication&quot;, &quot;Internationalisation and Intercultural Decision-making and Responsibility&quot;, &quot;Diversity Management&quot;, and &quot;European Integration and Identity Studies&quot;, as well as the classical studium generale. A possibility for a concomitant study in applied culture science is given, as well.
+
+In 1979, the Interfakultatives Institut f&uuml;r Anwendungen der Informatik (Interfaculty Institute for Applications of Informatics) was founded. It brings together research in physics, mathematics, and engineering based on computer science. Its mathematical pendant is the Institut f&uuml;r Wissenschaftliches Rechnen und Mathematische Modellbildung (Institute for Scientific Calculations and Mathematical Modelling). Its aim is to enhance the exchange between mathematics and engineering in the fields of scientific calculations.
+
+The Interfakultatives Institut f&uuml;r Entrepreneurship (Interfaculty Institute for Entrepreneurship) was established by SAP funding. Its teaching professors were entrepreneurs on their own. Before being shut down in 2010, the former professor was G&ouml;tz Werner, founder of dm-drogerie markt.
+
+In 2001, the Centre for Functional Nanostructures (CFN) was established. It merges the fields of material sciences, biology, chemistry, engineering, and physics which are related to nano technology. The CFN is one of the three Exzellenzzentren (English: Excellence Instituitions) of the University of Karlsruhe. Another interdisciplinary institution is the Centre for Disaster Management and Risk Reduction Technology (CEDIM).
+
+The Karlsruhe School of Optics and Photonics (KSOP) was established in 2006 as a publicly funded project by the Deutsche Forschungsgemeinschaft under the German Universities Excellence Initiative. KSOP was the first graduate school at the University of Karlsruhe and covers photonic materials and devices, advanced spectroscopy, biomedical photonics, optical systems and solar energy. It is supported by several institutes and professors of the university. It is also a partner in the EUROPHOTONICS consortium, which provides scholarship for master's degrees and PhD under the European Commission's prestigious Erasmus Mundus cooperation and mobility program.
+
+KIT operates several TCCON stations as part of an international collaborative effort of measuring greenhouse gases globally. One station is near campus.
+
+            <br />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Heart_and_Soul_nebulae.jpg/508px-Heart_and_Soul_nebulae.jpg" alt="Picture" style="max-width: 100%;">
+            <br />
+
+            KIT is one of the leading universities in the engineering and natural sciences in Europe, ranking sixth overall in citation impact. KIT is a member of the TU9 German Institutes of Technology e.V. As part of the German Universities Excellence Initiative KIT was accredited with the excellence status in 2006. In the 2011 performance-ranking of scientific papers, Karlsruhe ranked first in Germany and among the top 10 universities in Europe in engineering and natural sciences. In the 2013 QS World University Rankings, the Karlsruhe Institute of Technology achieved 116th place in the global ranking across all disciplines and 33rd place in the engineering sciences. In the 2013 Taiwan ranking, KIT leads as best German university in the engineering and natural sciences. As in 2012, KIT (world rank 61) remained ranked as the top university for engineering sciences in Germany, before the RWTH Aachen (world rank 89), the Technical University of Munich (world rank 94) and the Technical University of Dresden (world rank 108). For the natural sciences, KIT (world rank 51) leads the domestic comparison against the LMU Munich (world rank 62), the University of Heidelberg (world rank 72), and the Technical University of Munich (world rank 81).
+
+According to the Ranking of Scientific Impact of Leading European Research Universities, an official document compiled by the European Commission, Karlsruhe ranks second nationally and sixth in Europe in terms of scholarly impact.
+
+With the exception of the department of biology, this university receives more funding from the Deutsche Forschungsgemeinschaft than any other university specializing in the natural sciences in Germany. In the engineering sciences (computer science, electrical and mechanical engineering), the university is in the top three together with University of Stuttgart and the RWTH Aachen. It also consistently ranks top in the course industrial engineering and management, concerning the overall study situation, as well as popularity with employers.
+
+More than 20% of its students are attracted from other nations and 0.6% of its students receive grants from the German Studienstiftung (German National Academic Foundation). In 1998, Science Watch described its chemistry faculty as belonging to &quot;the cream of the crop in chemistry&quot; internationally.
+
+In 2006, the University of Karlsruhe was chosen to be one of the first three universities with the best future concept within the scope of the German Universities Excellence Initiative. These universities have been called &quot;elite universities&quot; in general public and media from that day on.
+
+For many years, the department for Computer Science has been the number-one institution in this field in Germany. Hence, the University of Karlsruhe has established an international reputation.
+
+In the 2012 Times Higher Education World University Rankings, the university was ranked 151st in the world.
+
+            <br />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Moraine_Lake_17092005.jpg/480px-Moraine_Lake_17092005.jpg" alt="Picture" style="max-width: 100%;">
+            <br />
+
+        </div>
+
+
+        <script src="js/offcanvas.js"></script>
+
+</body>
+</HTML>
